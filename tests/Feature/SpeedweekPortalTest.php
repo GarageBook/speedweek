@@ -45,6 +45,23 @@ class SpeedweekPortalTest extends TestCase
             ->assertDontSee('>Speedweek</h1>', false);
     }
 
+    public function test_form_actions_use_forwarded_https_scheme(): void
+    {
+        config(['app.url' => 'https://speedweek.bergmolen.nl']);
+
+        $this->withServerVariables([
+            'HTTP_HOST' => 'speedweek.bergmolen.nl',
+            'HTTP_X_FORWARDED_PROTO' => 'https',
+            'HTTP_X_FORWARDED_HOST' => 'speedweek.bergmolen.nl',
+            'HTTP_X_FORWARDED_PORT' => '443',
+            'REMOTE_ADDR' => '10.0.0.1',
+            'HTTPS' => 'off',
+        ])->get('/login')
+            ->assertOk()
+            ->assertSee('action="https://speedweek.bergmolen.nl/login"', false)
+            ->assertDontSee('http://speedweek.bergmolen.nl', false);
+    }
+
     public function test_new_user_registration_with_event_context_redirects_to_event_registration(): void
     {
         [$event] = $this->eventWithPackages();
