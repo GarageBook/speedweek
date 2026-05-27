@@ -5,14 +5,9 @@ RUN apt-get update && apt-get install -y \
     unzip \
     curl \
     libsqlite3-dev \
-    libicu-dev \
-    libzip-dev \
     nodejs \
     npm \
-    zip \
-    && docker-php-ext-install pdo_sqlite intl zip \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    zip
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
@@ -24,7 +19,9 @@ RUN composer install --no-dev --optimize-autoloader
 
 RUN npm install && npm run build
 
-RUN mkdir -p database && touch database/database.sqlite
+RUN touch database/database.sqlite
+
+RUN php artisan config:clear && php artisan route:clear && php artisan view:clear
 
 EXPOSE 10000
 
