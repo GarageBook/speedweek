@@ -19,6 +19,7 @@ class User extends Authenticatable implements FilamentUser
     protected function casts(): array { return ['email_verified_at' => 'datetime', 'password' => 'hashed', 'is_admin' => 'boolean']; }
     public function canAccessPanel(Panel $panel): bool { return (bool) $this->is_admin; }
     public function participantProfile(): HasOne { return $this->hasOne(ParticipantProfile::class); }
+    public function registration(): HasOne { return $this->hasOne(Registration::class)->latestOfMany(); }
     public function registrations(): HasMany { return $this->hasMany(Registration::class); }
     public function motorcycles(): HasMany { return $this->hasMany(Motorcycle::class); }
 }

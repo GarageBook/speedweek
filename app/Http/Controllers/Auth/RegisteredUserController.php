@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Event;
 use App\Models\User;
+use App\Services\UserOnboardingService;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -37,7 +38,7 @@ class RegisteredUserController extends Controller
      *
      * @throws ValidationException
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request, UserOnboardingService $onboarding): RedirectResponse
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -63,6 +64,8 @@ class RegisteredUserController extends Controller
                 return redirect()->route('events.register', $event);
             }
         }
+
+        $onboarding->createForUser($user);
 
         return redirect()->intended(route('dashboard', absolute: false));
     }

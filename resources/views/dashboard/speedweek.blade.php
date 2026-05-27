@@ -1,6 +1,14 @@
 <x-speedweek-layout><x-slot:title>Mijn Speedweek</x-slot:title>
 @if(! $registration)
-    <div class="rounded bg-zinc-900 p-6 border border-zinc-800">Nog geen registratie.</div>
+    <section class="rounded bg-zinc-900 p-6 border border-zinc-800">
+        <h3 class="text-2xl font-bold text-[#d0362e]">Je registratie is nog niet compleet</h3>
+        <p class="mt-2 text-zinc-300">Kies je pakket om je Speedweek dashboard te vullen met finance, checklist en motorinformatie.</p>
+        @if($onboardingEvent)
+            <a class="pill-link mt-4" href="{{ route('events.register', $onboardingEvent) }}">Registratie afronden</a>
+        @else
+            <p class="mt-4 text-sm text-zinc-400">Er is nog geen open Speedweek event beschikbaar. Neem contact op met de organisatie.</p>
+        @endif
+    </section>
 @else
 @php
     $contact = config('speedweek.contact');
