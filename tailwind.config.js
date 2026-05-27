@@ -11,8 +11,24 @@ export default {
 
     theme: {
         extend: {
+            colors: {
+                speedweek: {
+                    50: '#fdf3f2',
+                    100: '#fbe3e1',
+                    200: '#f6cbc7',
+                    300: '#efa8a1',
+                    400: '#e57970',
+                    500: '#d0362e',
+                    600: '#bd3029',
+                    700: '#9d2823',
+                    800: '#81231f',
+                    900: '#6c211e',
+                    950: '#3b0e0c',
+                },
+            },
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['Play', ...defaultTheme.fontFamily.sans],
+                display: ['Play', ...defaultTheme.fontFamily.sans],
             },
         },
     },
