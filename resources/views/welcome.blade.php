@@ -1,1 +1,20 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Speedweek</title>@vite(['resources/css/app.css','resources/js/app.js'])</head><body class="bg-zinc-950 text-zinc-100"><main class="max-w-5xl mx-auto px-6 py-16"><h1 class="text-5xl font-bold text-[#d0362e]">Speedweek</h1><p class="mt-4 text-zinc-300">Racetrack deelnemersportaal voor Zuid-Spanje.</p><div class="mt-8 flex gap-3"><a class="rounded-full bg-[#00d1c1] px-4 py-2 font-bold text-black" href="{{ route('login') }}">Login</a>@if($event)<a class="rounded-full border border-[#00d1c1] bg-[#00d1c1] px-4 py-2 font-bold text-black" href="{{ route('register', ['event' => $event->slug]) }}">Register {{ $event->name }}</a>@endif</div></main></body></html>
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Speedweek</title>
+    @vite(['resources/css/app.css','resources/js/app.js'])
+</head>
+<body class="bg-zinc-950 text-zinc-100">
+    <main class="flex min-h-screen items-center justify-center px-6 py-16">
+        <div class="flex flex-col items-center gap-8">
+            <img src="/images/logo_25_meetthespeed_edited_edited.avif" alt="Speedweek" class="h-24 w-auto object-contain sm:h-32">
+            <div class="flex flex-wrap items-center justify-center gap-3">
+                <a class="rounded-full bg-[#00d1c1] px-5 py-3 font-bold text-black" href="{{ route('login') }}">Login</a>
+                <a class="rounded-full bg-[#00d1c1] px-5 py-3 font-bold text-black" href="{{ $event ? route('register', ['event' => $event->slug]) : route('register') }}">Registreer</a>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

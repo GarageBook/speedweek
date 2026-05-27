@@ -29,7 +29,20 @@ class SpeedweekPortalTest extends TestCase
 
         $this->get('/')
             ->assertOk()
-            ->assertSee('/register?event='.$event->slug, false);
+            ->assertSee('/register?event='.$event->slug, false)
+            ->assertSee('Registreer');
+    }
+
+
+
+    public function test_homepage_still_shows_register_button_without_event(): void
+    {
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('Registreer')
+            ->assertSee('/register', false)
+            ->assertDontSee('Racetrack deelnemersportaal voor Zuid-Spanje.')
+            ->assertDontSee('>Speedweek</h1>', false);
     }
 
     public function test_new_user_registration_with_event_context_redirects_to_event_registration(): void
