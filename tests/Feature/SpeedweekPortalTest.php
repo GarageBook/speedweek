@@ -77,6 +77,7 @@ class SpeedweekPortalTest extends TestCase
     {
         $admin = User::create(['name'=>'Admin','email'=>'admin@example.com','password'=>'password','is_admin'=>true]);
 
+        $this->actingAs($admin)->get('/admin')->assertOk()->assertSee('Operations dashboard')->assertSee('Registrations');
         $this->actingAs($admin)->get('/admin/users')->assertOk();
         $this->actingAs($admin)->get('/admin/registrations')->assertOk();
     }
