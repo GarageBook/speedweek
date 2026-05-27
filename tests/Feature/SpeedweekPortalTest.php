@@ -65,7 +65,7 @@ class SpeedweekPortalTest extends TestCase
         $user = User::create(['name'=>'Rider','email'=>'rider@example.com','password'=>'password']);
         Registration::create(['user_id'=>$user->id,'event_id'=>$event->id,'package_id'=>$package->id,'status'=>'pending','payment_status'=>'deposit_invoiced','total_amount_cents'=>0,'deposit_amount_cents'=>0]);
 
-        $this->actingAs($user)->patch('/dashboard/motorcycle', ['brand'=>'Yamaha','model'=>'R1','year'=>2022])->assertRedirect();
+        $this->actingAs($user)->patch('/dashboard/motorcycle', ['brand'=>'Yamaha','model'=>'R1','year'=>2022,'return_to'=>route('dashboard')])->assertRedirect(route('dashboard'));
 
         $this->assertDatabaseHas('motorcycles', ['user_id'=>$user->id,'brand'=>'Yamaha','model'=>'R1']);
     }
@@ -100,6 +100,22 @@ class SpeedweekPortalTest extends TestCase
         Registration::create(['user_id'=>$other->id,'event_id'=>$event->id,'package_id'=>$otherPackage->id,'status'=>'pending','payment_status'=>'deposit_invoiced','total_amount_cents'=>0,'deposit_amount_cents'=>0]);
 
         $this->actingAs($user)->get('/dashboard')->assertOk()->assertSee('Independent')->assertDontSee('Other Private Package');
+    }
+
+
+
+    public function test_dashboard_shows_finance_widget_and_configured_contact_details(): void
+    {
+        [$event, $package] = $this->eventWithPackages();
+        $user = User::create(['name'=>'Finance User','email'=>'finance@example.com','password'=>'password']);
+        Registration::create(['user_id'=>$user->id,'event_id'=>$event->id,'package_id'=>$package->id,'status'=>'pending','payment_status'=>'deposit_invoiced','total_amount_cents'=>0,'deposit_amount_cents'=>0]);
+
+        $this->actingAs($user)->get('/dashboard')
+            ->assertOk()
+            ->assertSee('Finance')
+            ->assertSee('Factuur')
+            ->assertSee(config('speedweek.contact.name'))
+            ->assertSee(config('speedweek.contact.email'));
     }
 
     public function test_admin_can_access_filament_resources(): void
