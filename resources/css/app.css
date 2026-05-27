@@ -35,15 +35,34 @@
     }
 
     a {
-        color: #d0362e;
+        color: #00d1c1;
     }
 
     a:hover {
-        color: #d0362e;
+        color: #00d1c1;
     }
 }
 
 @layer components {
+    .pill-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 9999px;
+        background-color: #00d1c1;
+        color: #000;
+        padding: 0.45rem 0.85rem;
+        font-weight: 700;
+        line-height: 1;
+        text-decoration: none;
+    }
+
+    .pill-link:hover,
+    .pill-link:focus {
+        background-color: #00d1c1;
+        color: #000;
+    }
+
     .bg-white label {
         color: #000;
     }

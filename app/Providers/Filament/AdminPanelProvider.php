@@ -31,7 +31,7 @@ class AdminPanelProvider extends PanelProvider
             ->brandLogoHeight('2.5rem')
             ->font('Play', asset('fonts/play.css'), LocalFontProvider::class)
             ->colors([
-                'primary' => [50 => '#d0362e', 100 => '#d0362e', 200 => '#d0362e', 300 => '#d0362e', 400 => '#d0362e', 500 => '#d0362e', 600 => '#d0362e', 700 => '#d0362e', 800 => '#d0362e', 900 => '#d0362e', 950 => '#d0362e'],
+                'primary' => [50 => '#00d1c1', 100 => '#00d1c1', 200 => '#00d1c1', 300 => '#00d1c1', 400 => '#00d1c1', 500 => '#00d1c1', 600 => '#00d1c1', 700 => '#00d1c1', 800 => '#00d1c1', 900 => '#00d1c1', 950 => '#00d1c1'],
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
