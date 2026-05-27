@@ -38,4 +38,4 @@ RUN php artisan config:clear && php artisan route:clear && php artisan view:clea
 
 EXPOSE 10000
 
-CMD php artisan migrate --force && php artisan users:ensure-admin && php artisan optimize:clear && php artisan route:clear && php artisan config:clear && php artisan view:clear && php artisan serve --host=0.0.0.0 --port=10000
+CMD php artisan migrate --force && php artisan db:seed --force --class=AdminUserSeeder && php artisan optimize:clear && php artisan route:clear && php artisan config:clear && php artisan view:clear && php artisan serve --host=0.0.0.0 --port=10000

@@ -80,7 +80,7 @@ For focused changes, run the relevant feature test first, then the full suite if
 - `UserOnboardingService` creates idempotent baseline dashboard data for new users: event/package, registration, invoices, checklist items, motorcycle, tire request, and travel info.
 - `Registration` automatically calculates totals and creates invoices in model events via `RegistrationPricing`.
 - Filament access is controlled by `User::canAccessPanel()` and `is_admin`.
-- Production admin user is bootstrapped by `php artisan users:ensure-admin` using `ADMIN_EMAIL`, `ADMIN_PASSWORD`, and `ADMIN_NAME`, with local demo fallbacks.
+- Permanent admin user is seeded by `php artisan db:seed --class=AdminUserSeeder`: `willemvanveelen@icloud.com` with `is_admin=true`. `php artisan users:ensure-admin` uses the same defaults unless env or CLI options override them.
 - Prefer route helpers and relative form actions; avoid hardcoded HTTP URLs.
 
 ## Known Pitfalls

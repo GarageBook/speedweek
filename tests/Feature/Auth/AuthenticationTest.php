@@ -3,6 +3,7 @@
 namespace Tests\Feature\Auth;
 
 use App\Models\User;
+use Database\Seeders\AdminUserSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Hash;
@@ -32,33 +33,81 @@ class AuthenticationTest extends TestCase
         $response->assertRedirect(route('dashboard', absolute: false));
     }
 
-    public function test_admin_user_can_be_bootstrapped_for_production_login(): void
+    public function test_permanent_admin_user_can_be_seeded_and_login(): void
     {
-        Artisan::call('users:ensure-admin', [
-            '--email' => 'admin@speedweek.local',
-            '--password' => 'password',
-            '--name' => 'Speedweek Admin',
-        ]);
+        $this->seed(AdminUserSeeder::class);
 
-        $admin = User::where('email', 'admin@speedweek.local')->firstOrFail();
+        $admin = User::where('email', AdminUserSeeder::EMAIL)->firstOrFail();
 
+        $this->assertSame(AdminUserSeeder::NAME, $admin->name);
         $this->assertTrue($admin->is_admin);
-        $this->assertTrue(Hash::check('password', $admin->password));
+        $this->assertTrue(Hash::check(AdminUserSeeder::PASSWORD, $admin->password));
 
         $this->post('/login', [
-            'email' => 'admin@speedweek.local',
-            'password' => 'password',
+            'email' => AdminUserSeeder::EMAIL,
+            'password' => AdminUserSeeder::PASSWORD,
         ])->assertRedirect(route('dashboard', absolute: false));
 
         $this->assertAuthenticatedAs($admin);
     }
 
-    public function test_admin_bootstrap_is_idempotent(): void
+    public function test_permanent_admin_user_has_access_to_admin_panel(): void
     {
-        Artisan::call('users:ensure-admin', ['--email' => 'admin@speedweek.local', '--password' => 'password']);
-        Artisan::call('users:ensure-admin', ['--email' => 'admin@speedweek.local', '--password' => 'password']);
+        $this->seed(AdminUserSeeder::class);
+        $admin = User::where('email', AdminUserSeeder::EMAIL)->firstOrFail();
 
-        $this->assertSame(1, User::where('email', 'admin@speedweek.local')->count());
+        $this->actingAs($admin)->get('/admin')
+            ->assertOk()
+            ->assertSee('Speedweek Admin')
+            ->assertSee('Users');
+    }
+
+    public function test_regular_user_does_not_have_admin_panel_access(): void
+    {
+        $user = User::factory()->create(['is_admin' => false]);
+
+        $this->actingAs($user)->get('/admin')->assertForbidden();
+    }
+
+    public function test_existing_permanent_admin_user_is_updated_by_seeder(): void
+    {
+        User::create([
+            'name' => 'Old Name',
+            'email' => AdminUserSeeder::EMAIL,
+            'password' => Hash::make('old-password'),
+            'is_admin' => false,
+        ]);
+
+        $this->seed(AdminUserSeeder::class);
+
+        $admin = User::where('email', AdminUserSeeder::EMAIL)->firstOrFail();
+
+        $this->assertSame(AdminUserSeeder::NAME, $admin->name);
+        $this->assertTrue($admin->is_admin);
+        $this->assertTrue(Hash::check(AdminUserSeeder::PASSWORD, $admin->password));
+    }
+
+    public function test_admin_seeder_and_command_are_idempotent(): void
+    {
+        $this->seed(AdminUserSeeder::class);
+        $this->seed(AdminUserSeeder::class);
+        Artisan::call('users:ensure-admin');
+
+        $this->assertSame(1, User::where('email', AdminUserSeeder::EMAIL)->count());
+    }
+
+    public function test_new_regular_users_are_not_admins(): void
+    {
+        $this->post('/register', [
+            'name' => 'Regular User',
+            'email' => 'regular-user@example.com',
+            'password' => 'password',
+            'password_confirmation' => 'password',
+        ]);
+
+        $user = User::where('email', 'regular-user@example.com')->firstOrFail();
+
+        $this->assertFalse($user->is_admin);
     }
 
     public function test_users_can_not_authenticate_with_invalid_password(): void

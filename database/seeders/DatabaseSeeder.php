@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
 
     public function run(): void
     {
-        $admin = User::create(['name' => 'Speedweek Admin', 'email' => 'admin@speedweek.local', 'password' => Hash::make('password'), 'phone' => '+31000000000', 'is_admin' => true]);
+        $this->call(AdminUserSeeder::class);
         $rider = User::create(['name' => 'Demo Rider', 'email' => 'rider@speedweek.local', 'password' => Hash::make('password'), 'phone' => '+31600000000']);
 
         ParticipantProfile::create(['user_id'=>$rider->id,'salutation'=>'Mr','first_name'=>'Demo','last_name'=>'Rider','passport_full_name'=>'Demo Rider','date_of_birth'=>'1990-04-15','country'=>'Netherlands','address'=>'Main Street 1','city'=>'Amsterdam','postal_code'=>'1000AA','id_document_type'=>'passport','emergency_contact_name'=>'Demo Contact','emergency_contact_phone'=>'+31611111111']);
