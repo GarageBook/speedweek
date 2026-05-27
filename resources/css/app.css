@@ -42,3 +42,17 @@
         color: #d0362e;
     }
 }
+
+@layer components {
+    .bg-white input,
+    .bg-white textarea,
+    .bg-white select {
+        color: #000;
+        background-color: #fff;
+    }
+
+    .bg-white input::placeholder,
+    .bg-white textarea::placeholder {
+        color: #6b7280;
+    }
+}
