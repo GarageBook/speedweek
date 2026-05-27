@@ -1,0 +1,4 @@
+<?php
+namespace App\Filament\Resources\Motorcycles\Schemas;
+use Filament\Forms\Components\DatePicker; use Filament\Forms\Components\DateTimePicker; use Filament\Forms\Components\Select; use Filament\Forms\Components\TextInput; use Filament\Forms\Components\Textarea; use Filament\Forms\Components\Toggle; use Filament\Schemas\Schema;
+class MotorcycleForm { public static function configure(Schema $schema): Schema { return $schema->components([Select::make('user_id')->relationship('user','name')->searchable()->required(), Select::make('registration_id')->relationship('registration','id'), TextInput::make('brand')->required(), TextInput::make('model')->required(), TextInput::make('year')->numeric(), TextInput::make('license_plate'), TextInput::make('vin'), TextInput::make('front_tire_size'), TextInput::make('rear_tire_size'), Textarea::make('notes')]); } }

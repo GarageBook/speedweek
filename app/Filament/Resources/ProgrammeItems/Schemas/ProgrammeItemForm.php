@@ -1,0 +1,4 @@
+<?php
+namespace App\Filament\Resources\ProgrammeItems\Schemas;
+use Filament\Forms\Components\DatePicker; use Filament\Forms\Components\DateTimePicker; use Filament\Forms\Components\Select; use Filament\Forms\Components\TextInput; use Filament\Forms\Components\Textarea; use Filament\Forms\Components\Toggle; use Filament\Schemas\Schema;
+class ProgrammeItemForm { public static function configure(Schema $schema): Schema { return $schema->components([Select::make('event_id')->relationship('event','name')->required(), TextInput::make('title')->required(), Textarea::make('description'), DateTimePicker::make('starts_at')->required(), DateTimePicker::make('ends_at'), TextInput::make('location'), Select::make('type')->options(['travel'=>'Travel','briefing'=>'Briefing','track_session'=>'Track session','meal'=>'Meal','bus_transfer'=>'Bus transfer','rest_day'=>'Rest day','technical'=>'Technical','other'=>'Other'])->required()]); } }

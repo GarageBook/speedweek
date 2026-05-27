@@ -1,0 +1,4 @@
+<?php
+namespace App\Filament\Resources\ChecklistItems\Schemas;
+use Filament\Forms\Components\DatePicker; use Filament\Forms\Components\DateTimePicker; use Filament\Forms\Components\Select; use Filament\Forms\Components\TextInput; use Filament\Forms\Components\Textarea; use Filament\Forms\Components\Toggle; use Filament\Schemas\Schema;
+class ChecklistItemForm { public static function configure(Schema $schema): Schema { return $schema->components([Select::make('event_id')->relationship('event','name'), TextInput::make('title')->required(), Textarea::make('description'), Select::make('category')->options(['travel'=>'Travel','motorcycle'=>'Motorcycle','gear'=>'Gear','documents'=>'Documents','tires'=>'Tires','payment'=>'Payment','general'=>'General'])->required(), TextInput::make('sort_order')->numeric()->default(0), Toggle::make('is_default')]); } }

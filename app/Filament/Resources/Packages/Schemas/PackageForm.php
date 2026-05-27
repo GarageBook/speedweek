@@ -1,0 +1,4 @@
+<?php
+namespace App\Filament\Resources\Packages\Schemas;
+use Filament\Forms\Components\DatePicker; use Filament\Forms\Components\DateTimePicker; use Filament\Forms\Components\Select; use Filament\Forms\Components\TextInput; use Filament\Forms\Components\Textarea; use Filament\Forms\Components\Toggle; use Filament\Schemas\Schema;
+class PackageForm { public static function configure(Schema $schema): Schema { return $schema->components([Select::make('event_id')->relationship('event','name')->required(), TextInput::make('name')->required(), TextInput::make('slug')->required(), Textarea::make('description'), TextInput::make('price_cents')->numeric()->required(), TextInput::make('deposit_percentage')->numeric()->default(30)->required(), TextInput::make('sort_order')->numeric()->default(0), Toggle::make('is_active')]); } }

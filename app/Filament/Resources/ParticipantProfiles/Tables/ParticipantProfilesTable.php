@@ -1,0 +1,4 @@
+<?php
+namespace App\Filament\Resources\ParticipantProfiles\Tables;
+use App\Models\MailTemplate; use App\Support\TemplateMailer; use Filament\Actions\Action; use Filament\Actions\BulkAction; use Filament\Actions\BulkActionGroup; use Filament\Actions\DeleteBulkAction; use Filament\Actions\EditAction; use Filament\Forms\Components\Select; use Filament\Notifications\Notification; use Filament\Tables\Columns\IconColumn; use Filament\Tables\Columns\TextColumn; use Filament\Tables\Table; use Illuminate\Database\Eloquent\Collection;
+class ParticipantProfilesTable { public static function configure(Table $table): Table { return $table->columns([TextColumn::make('user.name')->searchable(), TextColumn::make('first_name'), TextColumn::make('last_name'), TextColumn::make('country')])->filters([])->recordActions([EditAction::make(),])->toolbarActions([BulkActionGroup::make([DeleteBulkAction::make(),])]); } }

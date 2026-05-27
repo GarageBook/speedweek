@@ -1,0 +1,4 @@
+<?php
+namespace App\Filament\Resources\OnboardingSteps\Tables;
+use App\Models\MailTemplate; use App\Support\TemplateMailer; use Filament\Actions\Action; use Filament\Actions\BulkAction; use Filament\Actions\BulkActionGroup; use Filament\Actions\DeleteBulkAction; use Filament\Actions\EditAction; use Filament\Forms\Components\Select; use Filament\Notifications\Notification; use Filament\Tables\Columns\IconColumn; use Filament\Tables\Columns\TextColumn; use Filament\Tables\Table; use Illuminate\Database\Eloquent\Collection;
+class OnboardingStepsTable { public static function configure(Table $table): Table { return $table->columns([TextColumn::make('event.name'), TextColumn::make('title'), TextColumn::make('trigger_key')->badge(), IconColumn::make('is_active')->boolean()])->filters([])->recordActions([EditAction::make(),])->toolbarActions([BulkActionGroup::make([DeleteBulkAction::make(),])]); } }

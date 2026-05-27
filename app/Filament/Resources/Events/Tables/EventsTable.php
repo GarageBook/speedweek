@@ -1,0 +1,4 @@
+<?php
+namespace App\Filament\Resources\Events\Tables;
+use App\Models\MailTemplate; use App\Support\TemplateMailer; use Filament\Actions\Action; use Filament\Actions\BulkAction; use Filament\Actions\BulkActionGroup; use Filament\Actions\DeleteBulkAction; use Filament\Actions\EditAction; use Filament\Forms\Components\Select; use Filament\Notifications\Notification; use Filament\Tables\Columns\IconColumn; use Filament\Tables\Columns\TextColumn; use Filament\Tables\Table; use Illuminate\Database\Eloquent\Collection;
+class EventsTable { public static function configure(Table $table): Table { return $table->columns([TextColumn::make('name')->searchable()->sortable(), TextColumn::make('starts_at')->date()->sortable(), TextColumn::make('ends_at')->date(), TextColumn::make('status')->badge()])->filters([])->recordActions([EditAction::make(),])->toolbarActions([BulkActionGroup::make([DeleteBulkAction::make(),])]); } }

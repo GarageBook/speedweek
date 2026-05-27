@@ -1,0 +1,4 @@
+<?php
+namespace App\Filament\Resources\ChecklistItems\Tables;
+use App\Models\MailTemplate; use App\Support\TemplateMailer; use Filament\Actions\Action; use Filament\Actions\BulkAction; use Filament\Actions\BulkActionGroup; use Filament\Actions\DeleteBulkAction; use Filament\Actions\EditAction; use Filament\Forms\Components\Select; use Filament\Notifications\Notification; use Filament\Tables\Columns\IconColumn; use Filament\Tables\Columns\TextColumn; use Filament\Tables\Table; use Illuminate\Database\Eloquent\Collection;
+class ChecklistItemsTable { public static function configure(Table $table): Table { return $table->columns([TextColumn::make('event.name'), TextColumn::make('title')->searchable(), TextColumn::make('category')->badge(), IconColumn::make('is_default')->boolean()])->filters([])->recordActions([EditAction::make(),])->toolbarActions([BulkActionGroup::make([DeleteBulkAction::make(),])]); } }
