@@ -20,6 +20,22 @@ class InvoiceResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
+    protected static ?string $navigationLabel = 'Finance';
+
+    protected static string|\UnitEnum|null $navigationGroup = 'Beheer';
+
+    protected static ?int $navigationSort = 20;
+
+    public static function getModelLabel(): string
+    {
+        return 'factuur';
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'finance';
+    }
+
     public static function form(Schema $schema): Schema
     {
         return InvoiceForm::configure($schema);

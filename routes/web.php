@@ -5,6 +5,7 @@ use App\Http\Controllers\Dashboard\MotorcycleController;
 use App\Http\Controllers\Dashboard\ProfileController as PortalProfileController;
 use App\Http\Controllers\Dashboard\ProgrammeController;
 use App\Http\Controllers\Dashboard\TireController;
+use App\Http\Controllers\Dashboard\TrackResultsController;
 use App\Http\Controllers\Dashboard\TravelController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EventRegistrationController;
@@ -19,6 +20,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/register-event/{event:slug}', [EventRegistrationController::class, 'create'])->name('events.register');
     Route::post('/register-event/{event:slug}', [EventRegistrationController::class, 'store'])->name('events.register.store');
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
+    Route::get('/dashboard/track-results', TrackResultsController::class)->name('dashboard.track-results');
     Route::get('/dashboard/profile', [PortalProfileController::class, 'edit'])->name('dashboard.profile');
     Route::patch('/dashboard/profile', [PortalProfileController::class, 'update'])->name('dashboard.profile.update');
     Route::get('/dashboard/motorcycle', [MotorcycleController::class, 'edit'])->name('dashboard.motorcycle');

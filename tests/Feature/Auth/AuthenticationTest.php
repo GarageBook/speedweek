@@ -59,7 +59,7 @@ class AuthenticationTest extends TestCase
         $this->actingAs($admin)->get('/admin')
             ->assertOk()
             ->assertSee('Speedweek Admin')
-            ->assertSee('Users');
+            ->assertSee('Gebruikers');
     }
 
     public function test_regular_user_does_not_have_admin_panel_access(): void

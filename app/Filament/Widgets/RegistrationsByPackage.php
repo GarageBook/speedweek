@@ -10,7 +10,7 @@ class RegistrationsByPackage extends StatsOverviewWidget
 {
     protected static bool $isLazy = false;
 
-    protected ?string $heading = 'Registrations by package';
+    protected ?string $heading = 'Registraties per pakket';
 
     protected function getStats(): array
     {

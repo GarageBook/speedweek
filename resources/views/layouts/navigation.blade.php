@@ -1,24 +1,31 @@
 <nav x-data="{ open: false }" class="bg-zinc-950 border-b border-zinc-800">
-    <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
-                <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
                         <x-application-logo class="block h-10 w-auto" />
                     </a>
                 </div>
 
-                <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        Dashboard
                     </x-nav-link>
+                    <x-nav-link :href="route('dashboard.track-results')" :active="request()->routeIs('dashboard.track-results')">
+                        Track results
+                    </x-nav-link>
+                    @if(Auth::user()?->is_admin)
+                        <x-nav-link :href="route('filament.admin.resources.users.index')" :active="request()->is('admin/users*')">
+                            Gebruikers
+                        </x-nav-link>
+                        <x-nav-link :href="route('filament.admin.resources.invoices.index')" :active="request()->is('admin/invoices*')">
+                            Finance
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
-            <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
@@ -35,24 +42,22 @@
 
                     <x-slot name="content">
                         <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
+                            Profiel
                         </x-dropdown-link>
 
-                        <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
 
                             <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                                Uitloggen
                             </x-dropdown-link>
                         </form>
                     </x-slot>
                 </x-dropdown>
             </div>
 
-            <!-- Hamburger -->
             <div class="-me-2 flex items-center sm:hidden">
                 <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-zinc-300 hover:text-[#d0362e] hover:bg-zinc-900 focus:outline-none focus:bg-zinc-900 focus:text-[#d0362e] transition duration-150 ease-in-out">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
@@ -64,15 +69,24 @@
         </div>
     </div>
 
-    <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
+                Dashboard
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('dashboard.track-results')" :active="request()->routeIs('dashboard.track-results')">
+                Track results
+            </x-responsive-nav-link>
+            @if(Auth::user()?->is_admin)
+                <x-responsive-nav-link :href="route('filament.admin.resources.users.index')" :active="request()->is('admin/users*')">
+                    Gebruikers
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('filament.admin.resources.invoices.index')" :active="request()->is('admin/invoices*')">
+                    Finance
+                </x-responsive-nav-link>
+            @endif
         </div>
 
-        <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-zinc-800">
             <div class="px-4">
                 <div class="font-medium text-base text-zinc-100">{{ Auth::user()->name }}</div>
@@ -81,17 +95,16 @@
 
             <div class="mt-3 space-y-1">
                 <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Profile') }}
+                    Profiel
                 </x-responsive-nav-link>
 
-                <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
 
                     <x-responsive-nav-link :href="route('logout')"
                             onclick="event.preventDefault();
                                         this.closest('form').submit();">
-                        {{ __('Log Out') }}
+                        Uitloggen
                     </x-responsive-nav-link>
                 </form>
             </div>

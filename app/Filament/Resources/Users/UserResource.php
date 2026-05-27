@@ -20,6 +20,22 @@ class UserResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
+    protected static ?string $navigationLabel = 'Gebruikers';
+
+    protected static string|\UnitEnum|null $navigationGroup = 'Beheer';
+
+    protected static ?int $navigationSort = 10;
+
+    public static function getModelLabel(): string
+    {
+        return 'gebruiker';
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'gebruikers';
+    }
+
     public static function form(Schema $schema): Schema
     {
         return UserForm::configure($schema);

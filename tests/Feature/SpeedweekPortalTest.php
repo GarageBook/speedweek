@@ -152,8 +152,46 @@ class SpeedweekPortalTest extends TestCase
     {
         $admin = User::create(['name'=>'Admin','email'=>'admin@example.com','password'=>'password','is_admin'=>true]);
 
-        $this->actingAs($admin)->get('/admin')->assertOk()->assertSee('Operations dashboard')->assertSee('Registrations');
+        $this->actingAs($admin)->get('/admin')->assertOk()->assertSee('Operations dashboard')->assertSee('Registraties')->assertSee('Gebruikers')->assertSee('Finance');
         $this->actingAs($admin)->get('/admin/users')->assertOk();
         $this->actingAs($admin)->get('/admin/registrations')->assertOk();
+    }
+
+    public function test_admin_navigation_shows_management_tabs(): void
+    {
+        $admin = User::create(['name' => 'Admin', 'email' => 'admin-tabs@example.com', 'password' => 'password', 'is_admin' => true]);
+
+        $this->actingAs($admin)->get('/dashboard')
+            ->assertOk()
+            ->assertSee('Gebruikers')
+            ->assertSee('Finance')
+            ->assertSee('Track results')
+            ->assertSee(route('filament.admin.resources.users.index'), false)
+            ->assertSee(route('filament.admin.resources.invoices.index'), false);
+    }
+
+    public function test_track_results_page_shows_lap_times(): void
+    {
+        $user = User::create(['name' => 'Lap Rider', 'email' => 'lap@example.com', 'password' => 'password']);
+
+        $this->actingAs($user)->get('/dashboard/track-results')
+            ->assertOk()
+            ->assertSee('Track results')
+            ->assertSee('Rondetijden')
+            ->assertSee('1:48.231')
+            ->assertSee('Lap Rider');
+    }
+
+    public function test_dashboard_uses_dutch_status_labels(): void
+    {
+        [$event, $package] = $this->eventWithPackages();
+        $user = User::create(['name' => 'Dutch Status', 'email' => 'dutch-status@example.com', 'password' => 'password']);
+        Registration::create(['user_id' => $user->id, 'event_id' => $event->id, 'package_id' => $package->id, 'status' => 'pending', 'payment_status' => 'deposit_invoiced', 'total_amount_cents' => 0, 'deposit_amount_cents' => 0]);
+
+        $this->actingAs($user)->get('/dashboard')
+            ->assertOk()
+            ->assertSee('in behandeling')
+            ->assertSee('aanbetaling verstuurd')
+            ->assertDontSee('deposit_invoiced');
     }
 }

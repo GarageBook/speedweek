@@ -20,6 +20,22 @@ class RegistrationResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
+    protected static ?string $navigationLabel = 'Registraties';
+
+    protected static string|\UnitEnum|null $navigationGroup = 'Beheer';
+
+    protected static ?int $navigationSort = 30;
+
+    public static function getModelLabel(): string
+    {
+        return 'registratie';
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'registraties';
+    }
+
     public static function form(Schema $schema): Schema
     {
         return RegistrationForm::configure($schema);

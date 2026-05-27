@@ -14,6 +14,7 @@
     $contact = config('speedweek.contact');
     $returnTo = url()->current();
     $money = fn (int $cents) => 'EUR '.number_format($cents / 100, 2);
+    $labels = App\Support\SpeedweekLabels::class;
     $openInvoices = $registration->invoices->whereNotIn('status', ['paid', 'cancelled', 'credited']);
     $paidInvoices = $registration->invoices->where('status', 'paid');
     $openAmount = $openInvoices->sum('amount_cents');
@@ -23,7 +24,7 @@
     <section class="md:col-span-2 rounded bg-zinc-900 p-6 border border-zinc-800">
         <h3 class="text-2xl font-bold text-[#d0362e]">Mijn Speedweek</h3>
         <p class="mt-2">{{ $registration->event->name }} · {{ $registration->package->name }}</p>
-        <p class="mt-2"><span class="rounded bg-zinc-800 px-2 py-1">{{ $registration->status }}</span> <span class="rounded bg-[#d0362e] text-white px-2 py-1">{{ $registration->payment_status }}</span></p>
+        <p class="mt-2"><span class="rounded bg-zinc-800 px-2 py-1">{{ $labels::registrationStatus($registration->status) }}</span> <span class="rounded bg-[#d0362e] text-white px-2 py-1">{{ $labels::paymentStatus($registration->payment_status) }}</span></p>
     </section>
     <section class="rounded bg-zinc-900 p-6 border border-zinc-800">
         <h3 class="font-bold">Contact</h3>
@@ -52,8 +53,8 @@
                 @forelse($registration->invoices as $invoice)
                     <tr>
                         <td class="py-3 pr-4 font-bold">{{ $invoice->invoice_number }}</td>
-                        <td class="py-3 pr-4">{{ $invoice->type }}</td>
-                        <td class="py-3 pr-4"><span class="rounded bg-zinc-800 px-2 py-1">{{ $invoice->status }}</span></td>
+                        <td class="py-3 pr-4">{{ $labels::invoiceType($invoice->type) }}</td>
+                        <td class="py-3 pr-4"><span class="rounded bg-zinc-800 px-2 py-1">{{ $labels::invoiceStatus($invoice->status) }}</span></td>
                         <td class="py-3 pr-4">{{ $money($invoice->amount_cents) }}</td>
                         <td class="py-3 pr-4">{{ $invoice->due_at?->format('d M Y') ?? 'TBD' }}</td>
                         <td class="py-3">

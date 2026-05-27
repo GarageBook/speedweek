@@ -26,6 +26,8 @@ class SpeedweekOperationsWidget extends Widget
             'hotelName' => $event?->hotel_name ?? 'Hotel Punta del Cantal',
             'confirmedCount' => Registration::query()->where('status', 'confirmed')->count(),
             'pendingCount' => Registration::query()->where('status', 'pending')->count(),
+            'depositDue' => Registration::query()->whereIn('payment_status', ['unpaid', 'deposit_invoiced'])->sum('deposit_amount_cents'),
+            'transportCount' => Registration::query()->whereHas('package.features', fn ($query) => $query->where('key', 'motorcycle_transport_included')->where('included', true))->count(),
         ];
     }
 }
