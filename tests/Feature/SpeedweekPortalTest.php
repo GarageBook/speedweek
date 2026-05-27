@@ -21,6 +21,35 @@ class SpeedweekPortalTest extends TestCase
         return [$event, $rider, $spectator];
     }
 
+
+
+    public function test_homepage_register_button_starts_account_registration_for_event(): void
+    {
+        [$event] = $this->eventWithPackages();
+
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('/register?event='.$event->slug, false);
+    }
+
+    public function test_new_user_registration_with_event_context_redirects_to_event_registration(): void
+    {
+        [$event] = $this->eventWithPackages();
+
+        $this->get('/register?event='.$event->slug)
+            ->assertOk()
+            ->assertSee('name="event_slug"', false)
+            ->assertSee('value="'.$event->slug.'"', false);
+
+        $this->post('/register', [
+            'name' => 'New Rider',
+            'email' => 'new-rider@example.com',
+            'password' => 'password',
+            'password_confirmation' => 'password',
+            'event_slug' => $event->slug,
+        ])->assertRedirect(route('events.register', $event));
+    }
+
     public function test_spectator_does_not_have_to_enter_motorcycle(): void
     {
         [$event, , $spectator] = $this->eventWithPackages();

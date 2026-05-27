@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Event;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -18,8 +19,16 @@ class RegisteredUserController extends Controller
     /**
      * Display the registration view.
      */
-    public function create(): View
+    public function create(Request $request): View
     {
+        if ($request->filled('event')) {
+            $event = Event::where('slug', $request->query('event'))->first();
+
+            if ($event) {
+                $request->session()->put('url.intended', route('events.register', $event, absolute: false));
+            }
+        }
+
         return view('auth.register');
     }
 
@@ -34,6 +43,7 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'event_slug' => ['nullable', 'exists:events,slug'],
         ]);
 
         $user = User::create([
@@ -46,6 +56,14 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        if ($request->filled('event_slug')) {
+            $event = Event::where('slug', $request->input('event_slug'))->first();
+
+            if ($event) {
+                return redirect()->route('events.register', $event);
+            }
+        }
+
+        return redirect()->intended(route('dashboard', absolute: false));
     }
 }

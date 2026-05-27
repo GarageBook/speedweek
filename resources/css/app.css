@@ -44,6 +44,10 @@
 }
 
 @layer components {
+    .bg-white label {
+        color: #000;
+    }
+
     .bg-white input,
     .bg-white textarea,
     .bg-white select {

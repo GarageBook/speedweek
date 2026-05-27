@@ -2,6 +2,10 @@
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
+        @if(request('event'))
+            <input type="hidden" name="event_slug" value="{{ request('event') }}">
+        @endif
+
         <!-- Name -->
         <div>
             <x-input-label for="name" :value="__('Name')" />
