@@ -16,6 +16,9 @@
                         Track results
                     </x-nav-link>
                     @if(Auth::user()?->is_admin)
+                        <x-nav-link :href="route('filament.admin.pages.dashboard')" :active="request()->is('admin*')">
+                            Admin
+                        </x-nav-link>
                         <x-nav-link :href="route('filament.admin.resources.users.index')" :active="request()->is('admin/users*')">
                             Gebruikers
                         </x-nav-link>
@@ -78,6 +81,9 @@
                 Track results
             </x-responsive-nav-link>
             @if(Auth::user()?->is_admin)
+                <x-responsive-nav-link :href="route('filament.admin.pages.dashboard')" :active="request()->is('admin*')">
+                    Admin
+                </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('filament.admin.resources.users.index')" :active="request()->is('admin/users*')">
                     Gebruikers
                 </x-responsive-nav-link>
