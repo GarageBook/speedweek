@@ -130,6 +130,36 @@
     color: #374151 !important;
 }
 
+:root.theme-light .text-\[\#d0362e\] {
+    color: #991b1b !important;
+}
+
+:root.theme-light .bg-zinc-800,
+:root.theme-light .bg-zinc-800\/90,
+:root.theme-light .bg-zinc-800\/80,
+:root.theme-light .bg-zinc-800\/70,
+:root.theme-light .bg-zinc-800\/60,
+:root.theme-light .bg-zinc-800\/50 {
+    background-color: #e5e7eb !important;
+    color: #111827 !important;
+}
+
+:root.theme-light .bg-zinc-800.px-2.py-1,
+:root.theme-light .bg-zinc-800.px-2.py-1.text-white,
+:root.theme-light .bg-zinc-800.px-2.py-1.text-zinc-100,
+:root.theme-light .bg-zinc-800.px-2.py-1.text-zinc-200,
+:root.theme-light .bg-zinc-800.px-2.py-1.text-zinc-300,
+:root.theme-light .bg-zinc-800.px-2.py-1.text-zinc-400,
+:root.theme-light .rounded.bg-zinc-800.px-2.py-1,
+:root.theme-light .rounded.bg-zinc-800.px-2.py-1.text-white,
+:root.theme-light .rounded.bg-zinc-800.px-2.py-1.text-zinc-100,
+:root.theme-light .rounded.bg-zinc-800.px-2.py-1.text-zinc-200,
+:root.theme-light .rounded.bg-zinc-800.px-2.py-1.text-zinc-300,
+:root.theme-light .rounded.bg-zinc-800.px-2.py-1.text-zinc-400 {
+    background-color: #e5e7eb !important;
+    color: #111827 !important;
+}
+
 :root.theme-light .shadow-black\/20 {
     --tw-shadow-color: rgb(148 163 184 / 0.12) !important;
 }
