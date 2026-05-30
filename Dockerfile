@@ -39,4 +39,4 @@ RUN php artisan config:clear && php artisan route:clear && php artisan view:clea
 
 EXPOSE 10000
 
-CMD sh -lc 'if [ "${DB_CONNECTION:-sqlite}" = "sqlite" ] && [ -z "${DB_DATABASE:-}" ]; then export DB_DATABASE=/var/data/database.sqlite; fi; mkdir -p "$(dirname "${DB_DATABASE:-/var/data/database.sqlite}")"; touch "${DB_DATABASE:-/var/data/database.sqlite}"; php artisan migrate --force && php artisan db:seed --force --class=AdminUserSeeder && php artisan optimize:clear && php artisan route:clear && php artisan config:clear && php artisan view:clear && php artisan serve --host=0.0.0.0 --port=10000'
+CMD sh -lc 'if [ "${DB_CONNECTION:-sqlite}" = "sqlite" ] && [ -z "${DB_DATABASE:-}" ]; then export DB_DATABASE=/var/data/database.sqlite; fi; mkdir -p "$(dirname "${DB_DATABASE:-/var/data/database.sqlite}")"; touch "${DB_DATABASE:-/var/data/database.sqlite}"; php artisan migrate --force && php artisan db:seed --force --class=AdminUserSeeder && php artisan ops:debug-state && php artisan optimize:clear && php artisan route:clear && php artisan config:clear && php artisan view:clear && php artisan serve --host=0.0.0.0 --port=10000'
