@@ -34,6 +34,18 @@
                 </div>
             </div>
 
+
+            <div class="hidden sm:flex sm:items-center sm:ms-4">
+                <button
+                    type="button"
+                    class="inline-flex items-center rounded-md border border-zinc-700 px-3 py-2 text-sm text-zinc-200 transition hover:border-zinc-500"
+                    @click="window.toggleTheme()"
+                >
+                    <span x-show="document.documentElement.classList.contains('theme-dark')">Light</span>
+                    <span x-show="document.documentElement.classList.contains('theme-light')">Dark</span>
+                </button>
+            </div>
+
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
@@ -96,6 +108,17 @@
                     Finance
                 </x-responsive-nav-link>
             @endif
+        </div>
+
+        <div class="px-4 py-3 border-t border-zinc-800">
+            <button
+                type="button"
+                class="inline-flex items-center rounded-md border border-zinc-700 px-3 py-2 text-sm text-zinc-200 transition hover:border-zinc-500"
+                @click="window.toggleTheme()"
+            >
+                <span x-show="document.documentElement.classList.contains('theme-dark')">Light mode</span>
+                <span x-show="document.documentElement.classList.contains('theme-light')">Dark mode</span>
+            </button>
         </div>
 
         <div class="pt-4 pb-1 border-t border-zinc-800">

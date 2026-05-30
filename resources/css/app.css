@@ -93,3 +93,43 @@
         animation-duration: 1ms !important;
     }
 }
+
+:root.theme-dark {
+    color-scheme: dark;
+}
+
+:root.theme-light {
+    color-scheme: light;
+}
+
+:root.theme-light body {
+    background: #f3f4f6;
+    color: #111827;
+}
+
+:root.theme-light .bg-zinc-950,
+:root.theme-light .bg-zinc-950\/95,
+:root.theme-light .bg-zinc-950\/75,
+:root.theme-light .bg-zinc-900,
+:root.theme-light .bg-zinc-900\/50 {
+    background-color: #ffffff !important;
+}
+
+:root.theme-light .border-zinc-800,
+:root.theme-light .border-zinc-800\/90,
+:root.theme-light .border-zinc-800\/80,
+:root.theme-light .border-zinc-700 {
+    border-color: #e5e7eb !important;
+}
+
+:root.theme-light .text-zinc-100,
+:root.theme-light .text-zinc-200,
+:root.theme-light .text-zinc-300,
+:root.theme-light .text-zinc-400,
+:root.theme-light .text-zinc-500 {
+    color: #374151 !important;
+}
+
+:root.theme-light .shadow-black\/20 {
+    --tw-shadow-color: rgb(148 163 184 / 0.12) !important;
+}
