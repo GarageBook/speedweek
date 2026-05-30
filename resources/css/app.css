@@ -133,3 +133,19 @@
 :root.theme-light .shadow-black\/20 {
     --tw-shadow-color: rgb(148 163 184 / 0.12) !important;
 }
+
+:root.theme-light .nav-sticky .inline-flex.items-center.px-3.py-2.border.border-transparent.text-sm.leading-4.font-medium.rounded-md {
+    background-color: #f3f4f6 !important;
+    color: #111827 !important;
+}
+
+:root.theme-light .nav-sticky .inline-flex.items-center.rounded-md.border.border-zinc-700.px-3.py-2.text-sm.text-zinc-200 {
+    background-color: #ffffff !important;
+    color: #111827 !important;
+    border-color: #d1d5db !important;
+}
+
+:root.theme-light .nav-sticky .inline-flex.items-center.px-3.py-2.border.border-transparent.text-sm.leading-4.font-medium.rounded-md:hover,
+:root.theme-light .nav-sticky .inline-flex.items-center.rounded-md.border.border-zinc-700.px-3.py-2.text-sm.text-zinc-200:hover {
+    color: #b91c1c !important;
+}
