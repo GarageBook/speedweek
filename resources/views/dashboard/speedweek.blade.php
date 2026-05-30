@@ -1,5 +1,11 @@
 <x-speedweek-layout><x-slot:title>Mijn Speedweek</x-slot:title>
-@if(! $registration)
+@if($isAdminWithoutRegistration)
+    <section class="rounded bg-zinc-900 p-6 border border-zinc-800">
+        <h3 class="text-2xl font-bold text-[#d0362e]">Admin dashboardweergave</h3>
+        <p class="mt-2 text-zinc-300">Je bent ingelogd als admin. Deelnemersregistratie is niet verplicht om het reguliere dashboard te bekijken.</p>
+        <a class="pill-link mt-4" href="{{ route('filament.admin.pages.dashboard') }}">Terug naar Admin</a>
+    </section>
+@elseif(! $registration)
     <section class="rounded bg-zinc-900 p-6 border border-zinc-800">
         <h3 class="text-2xl font-bold text-[#d0362e]">Je registratie is nog niet compleet</h3>
         <p class="mt-2 text-zinc-300">Kies je pakket om je Speedweek dashboard te vullen met finance, checklist en motorinformatie.</p>

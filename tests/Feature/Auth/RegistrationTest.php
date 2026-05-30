@@ -32,28 +32,6 @@ class RegistrationTest extends TestCase
         $response->assertRedirect(route('dashboard', absolute: false));
     }
 
-    public function test_new_registered_user_gets_dashboard_data_without_seeders(): void
-    {
-        $this->post('/register', [
-            'name' => 'Production Rider',
-            'email' => 'production-rider@example.com',
-            'password' => 'password',
-            'password_confirmation' => 'password',
-        ])->assertRedirect(route('dashboard', absolute: false));
-
-        $user = User::where('email', 'production-rider@example.com')->firstOrFail();
-        $registration = $user->registration()->with(['event', 'package', 'motorcycle', 'tireRequest', 'travelInfo', 'checklistItems', 'invoices'])->first();
-
-        $this->assertNotNull($registration);
-        $this->assertSame('Speedweek 2026', $registration->event->name);
-        $this->assertSame('Full Package', $registration->package->name);
-        $this->assertSame('Yamaha', $registration->motorcycle->brand);
-        $this->assertSame('Pirelli', $registration->tireRequest->preferred_brand);
-        $this->assertSame('HV0001', $registration->travelInfo->outbound_flight_number);
-        $this->assertCount(6, $registration->checklistItems);
-        $this->assertCount(2, $registration->invoices);
-    }
-
     public function test_onboarding_is_idempotent_for_existing_user(): void
     {
         $user = User::create([
@@ -77,36 +55,36 @@ class RegistrationTest extends TestCase
         $this->assertSame(1, $registration->travelInfo()->count());
     }
 
-    public function test_dashboard_no_longer_shows_empty_registration_state_after_normal_registration(): void
+    public function test_dashboard_renders_onboarding_cta_for_new_user_without_registration(): void
     {
         $this->post('/register', [
             'name' => 'Dashboard Rider',
             'email' => 'dashboard-rider@example.com',
             'password' => 'password',
             'password_confirmation' => 'password',
-        ]);
+        ])->assertRedirect(route('dashboard', absolute: false));
 
         $this->get('/dashboard')
             ->assertOk()
-            ->assertDontSee('Nog geen registratie.')
-            ->assertSee('Finance')
-            ->assertSee('Open checklist')
-            ->assertSee('Mijn motor')
-            ->assertSee('Yamaha');
+            ->assertSee('Je registratie is nog niet compleet')
+            ->assertSee('Registratie afronden');
     }
 
-    public function test_dashboard_renders_onboarding_cta_when_registration_data_is_missing(): void
+    public function test_dashboard_shows_full_state_after_onboarding_data_is_created(): void
     {
         $user = User::create([
-            'name' => 'Empty Rider',
-            'email' => 'empty-rider@example.com',
+            'name' => 'Onboarded Rider',
+            'email' => 'onboarded-rider@example.com',
             'password' => 'password',
         ]);
 
+        app(UserOnboardingService::class)->createForUser($user);
+
         $this->actingAs($user)->get('/dashboard')
             ->assertOk()
-            ->assertDontSee('Nog geen registratie.')
-            ->assertSee('Je registratie is nog niet compleet')
-            ->assertSee('Registratie afronden');
+            ->assertSee('Mijn Speedweek')
+            ->assertSee('Finance')
+            ->assertSee('Open checklist')
+            ->assertDontSee('Je registratie is nog niet compleet');
     }
 }

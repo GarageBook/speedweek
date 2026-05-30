@@ -170,6 +170,43 @@ class SpeedweekPortalTest extends TestCase
             ->assertSee(route('filament.admin.resources.invoices.index'), false);
     }
 
+    public function test_admin_can_open_regular_dashboard_without_participant_onboarding(): void
+    {
+        $admin = User::create(['name' => 'Admin Dashboard', 'email' => 'admin-dashboard@example.com', 'password' => 'password', 'is_admin' => true]);
+
+        $this->actingAs($admin)->get('/dashboard')
+            ->assertOk()
+            ->assertSee('Admin dashboardweergave')
+            ->assertDontSee('Je registratie is nog niet compleet')
+            ->assertSee('Admin')
+            ->assertSee(route('filament.admin.pages.dashboard'), false);
+    }
+
+    public function test_user_onboarding_state_persists_after_logout_and_login(): void
+    {
+        $user = User::create(['name' => 'Persist Rider', 'email' => 'persist-onboarding@example.com', 'password' => 'password']);
+
+        app(\App\Services\UserOnboardingService::class)->createForUser($user);
+
+        $this->actingAs($user)->get('/dashboard')
+            ->assertOk()
+            ->assertSee('Mijn Speedweek')
+            ->assertDontSee('Je registratie is nog niet compleet');
+
+        $this->post('/logout')->assertRedirect('/');
+
+        $this->post('/login', [
+            'email' => 'persist-onboarding@example.com',
+            'password' => 'password',
+            'remember' => '1',
+        ])->assertRedirect(route('dashboard', absolute: false));
+
+        $this->get('/dashboard')
+            ->assertOk()
+            ->assertSee('Mijn Speedweek')
+            ->assertDontSee('Je registratie is nog niet compleet');
+    }
+
     public function test_track_results_page_shows_lap_times(): void
     {
         $user = User::create(['name' => 'Lap Rider', 'email' => 'lap@example.com', 'password' => 'password']);
