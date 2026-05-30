@@ -122,6 +122,40 @@ class AuthenticationTest extends TestCase
         $this->assertGuest();
     }
 
+    public function test_registered_user_persists_after_logout_and_is_visible_in_admin_users(): void
+    {
+        $admin = User::create(['name' => 'Admin Persist', 'email' => 'admin-persist@example.com', 'password' => 'password', 'is_admin' => true]);
+
+        $this->post('/register', [
+            'name' => 'Persisted Rider',
+            'email' => 'persisted-rider@example.com',
+            'password' => 'password',
+            'password_confirmation' => 'password',
+        ])->assertRedirect(route('dashboard', absolute: false));
+
+        $this->assertDatabaseHas('users', [
+            'email' => 'persisted-rider@example.com',
+            'name' => 'Persisted Rider',
+        ]);
+
+        $this->post('/logout')->assertRedirect('/');
+
+        $this->post('/login', [
+            'email' => $admin->email,
+            'password' => 'password',
+            'remember' => '1',
+        ])->assertRedirect(route('dashboard', absolute: false));
+
+        $this->assertDatabaseHas('users', [
+            'email' => 'persisted-rider@example.com',
+            'name' => 'Persisted Rider',
+        ]);
+
+        $this->actingAs($admin)->get('/admin/users')
+            ->assertOk()
+            ->assertSee('persisted-rider@example.com');
+    }
+
     public function test_users_can_logout(): void
     {
         $user = User::factory()->create();
