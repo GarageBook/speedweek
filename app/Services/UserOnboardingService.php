@@ -27,7 +27,7 @@ class UserOnboardingService
                     'registration_id' => $registration->id,
                 ]);
 
-                $this->ensureDashboardData($registration);
+                $this->ensureDashboardData($registration, $attributes);
 
                 return $registration->fresh(['event', 'package', 'motorcycle', 'tireRequest', 'travelInfo', 'checklistItems', 'invoices']);
             }
@@ -53,13 +53,13 @@ class UserOnboardingService
                 'registration_id' => $registration->id,
             ]);
 
-            $this->ensureDashboardData($registration);
+            $this->ensureDashboardData($registration, $attributes);
 
             return $registration->fresh(['event', 'package', 'motorcycle', 'tireRequest', 'travelInfo', 'checklistItems', 'invoices']);
         });
     }
 
-    public function ensureDashboardData(Registration $registration): void
+    public function ensureDashboardData(Registration $registration, array $attributes = []): void
     {
         $registration->loadMissing('event', 'package', 'motorcycle', 'invoices');
 
@@ -70,7 +70,7 @@ class UserOnboardingService
         $this->ensureChecklistItems($registration);
 
         if ($registration->requiresMotorcycle()) {
-            $motorcycle = $this->ensureMotorcycle($registration);
+            $motorcycle = $this->ensureMotorcycle($registration, $attributes);
             $this->ensureTireRequest($registration, $motorcycle);
         }
 
@@ -216,18 +216,30 @@ class UserOnboardingService
             ]));
     }
 
-    private function ensureMotorcycle(Registration $registration): Motorcycle
+    private function ensureMotorcycle(Registration $registration, array $attributes = []): Motorcycle
     {
+        $brand = $attributes['motorcycle_brand'] ?? 'Yamaha';
+        $modelProvided = array_key_exists('motorcycle_model', $attributes);
+        $yearProvided = array_key_exists('motorcycle_year', $attributes);
+        $plateProvided = array_key_exists('motorcycle_license_plate', $attributes);
+        $notesProvided = array_key_exists('motorcycle_notes', $attributes);
+
+        $model = $modelProvided ? ($attributes['motorcycle_model'] ?: 'Onbekend') : 'R1';
+        $year = $yearProvided ? $attributes['motorcycle_year'] : 2022;
+        $licensePlate = $plateProvided ? $attributes['motorcycle_license_plate'] : 'MTS-01';
+        $notes = $notesProvided ? $attributes['motorcycle_notes'] : null;
+
         return $registration->motorcycle()->firstOrCreate(
             ['registration_id' => $registration->id],
             [
                 'user_id' => $registration->user_id,
-                'brand' => 'Yamaha',
-                'model' => 'R1',
-                'year' => 2022,
-                'license_plate' => 'MTS-01',
+                'brand' => $brand,
+                'model' => $model,
+                'year' => $year,
+                'license_plate' => $licensePlate,
                 'front_tire_size' => '120/70 ZR17',
                 'rear_tire_size' => '200/55 ZR17',
+                'notes' => $notes,
             ]
         );
     }
