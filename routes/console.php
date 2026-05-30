@@ -1,10 +1,8 @@
 <?php
 
-use App\Models\User;
 use Database\Seeders\AdminUserSeeder;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Log;
 
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
@@ -27,31 +25,3 @@ Artisan::command('users:ensure-admin {--email=} {--password=} {--name=}', functi
 
     return self::SUCCESS;
 })->purpose('Create or update the configured admin user.');
-
-Artisan::command('ops:debug-state', function () {
-    $sqlitePath = (string) config('database.connections.sqlite.database');
-    $sqliteExists = $sqlitePath !== '' && file_exists($sqlitePath);
-    $sqliteInode = $sqliteExists ? fileinode($sqlitePath) : null;
-
-    $state = [
-        'timestamp' => now()->toIso8601String(),
-        'db_connection' => (string) env('DB_CONNECTION', 'not-set'),
-        'db_database' => (string) env('DB_DATABASE', 'not-set'),
-        'resolved_sqlite_path' => $sqlitePath,
-        'sqlite_file_exists' => $sqliteExists ? 'yes' : 'no',
-        'sqlite_inode' => $sqliteInode ?: 'n/a',
-        'session_driver' => (string) env('SESSION_DRIVER', 'not-set'),
-        'session_lifetime' => (string) env('SESSION_LIFETIME', 'not-set'),
-        'user_count' => User::count(),
-    ];
-
-    $this->info('=== OPS DEBUG STATE ===');
-    foreach ($state as $key => $value) {
-        $this->line($key.': '.$value);
-    }
-    $this->info('=== END OPS DEBUG STATE ===');
-
-    Log::info('OPS DEBUG STATE', $state);
-
-    return self::SUCCESS;
-})->purpose('Temporary production debug output for DB/session persistence checks.');
