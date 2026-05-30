@@ -13,7 +13,6 @@ class ProductionPersistenceGuardTest extends TestCase
     public function test_guard_fails_for_non_persistent_sqlite_path(): void
     {
         config([
-            'app.env' => 'production',
             'database.default' => 'sqlite',
             'database.connections.sqlite.database' => '/app/database/database.sqlite',
             'session.driver' => 'database',
@@ -30,7 +29,6 @@ class ProductionPersistenceGuardTest extends TestCase
     public function test_guard_fails_for_file_session_driver(): void
     {
         config([
-            'app.env' => 'production',
             'database.default' => 'sqlite',
             'database.connections.sqlite.database' => '/var/data/database.sqlite',
             'session.driver' => 'file',
@@ -44,10 +42,9 @@ class ProductionPersistenceGuardTest extends TestCase
         $this->assertStringContainsString("SESSION_DRIVER must be 'database'", Artisan::output());
     }
 
-    public function test_guard_passes_for_persistent_sqlite_and_database_sessions(): void
+    public function test_guard_passes_for_paid_render_persistent_sqlite_setup(): void
     {
         config([
-            'app.env' => 'production',
             'database.default' => 'sqlite',
             'database.connections.sqlite.database' => '/var/data/database.sqlite',
             'session.driver' => 'database',

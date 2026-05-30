@@ -8,27 +8,30 @@ export SESSION_DRIVER="${SESSION_DRIVER:-database}"
 export SESSION_LIFETIME="${SESSION_LIFETIME:-43200}"
 export SESSION_EXPIRE_ON_CLOSE="${SESSION_EXPIRE_ON_CLOSE:-false}"
 
-# Never allow non-persistent sqlite path in production.
-if [ "$APP_ENV" = "production" ] && [ "$DB_CONNECTION" = "sqlite" ] && [ "$DB_DATABASE" = "/app/database/database.sqlite" ]; then
-  echo "FATAL: non-persistent sqlite path '/app/database/database.sqlite' is not allowed in production."
-  exit 1
+if [ "$APP_ENV" = "production" ]; then
+  if [ "$DB_CONNECTION" != "sqlite" ]; then
+    echo "FATAL: production requires DB_CONNECTION=sqlite for paid Render persistent disk setup."
+    exit 1
+  fi
+
+  if [ "$DB_DATABASE" != "/var/data/database.sqlite" ]; then
+    echo "FATAL: production requires DB_DATABASE=/var/data/database.sqlite."
+    exit 1
+  fi
+
+  if [ "$SESSION_DRIVER" != "database" ]; then
+    echo "FATAL: production requires SESSION_DRIVER=database."
+    exit 1
+  fi
 fi
 
-# Ensure sqlite file path exists before Laravel boots migrations.
-if [ "$DB_CONNECTION" = "sqlite" ]; then
-  mkdir -p /var/data "$(dirname "$DB_DATABASE")"
-  touch "$DB_DATABASE"
-fi
+mkdir -p /var/data
+mkdir -p "$(dirname "$DB_DATABASE")"
+touch "$DB_DATABASE"
 
-# Make sure no stale config is used.
 php artisan config:clear
-
-# Fail-fast production guard before any migration/seed runs.
 php artisan ops:assert-production-persistence
-
-# Temporary diagnostics for live verification.
 php artisan ops:debug-state
-
 php artisan migrate --force
 php artisan db:seed --force --class=AdminUserSeeder
 php artisan optimize:clear

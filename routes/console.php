@@ -66,17 +66,14 @@ Artisan::command('ops:assert-production-persistence {--force-production}', funct
 
     $errors = [];
     $defaultConnection = (string) config('database.default');
-    $allowedConnections = ['sqlite', 'mysql', 'pgsql', 'mariadb'];
 
-    if (! in_array($defaultConnection, $allowedConnections, true)) {
-        $errors[] = "DB_CONNECTION must be one of [".implode(', ', $allowedConnections)."], got '{$defaultConnection}'.";
+    if ($defaultConnection !== 'sqlite') {
+        $errors[] = "DB_CONNECTION must be 'sqlite' for paid Render persistent disk setup, got '{$defaultConnection}'.";
     }
 
-    if ($defaultConnection === 'sqlite') {
-        $sqlitePath = (string) config('database.connections.sqlite.database');
-        if ($sqlitePath !== '/var/data/database.sqlite') {
-            $errors[] = "DB_DATABASE must resolve to /var/data/database.sqlite for sqlite production, got '{$sqlitePath}'.";
-        }
+    $sqlitePath = (string) config('database.connections.sqlite.database');
+    if ($sqlitePath !== '/var/data/database.sqlite') {
+        $errors[] = "DB_DATABASE must resolve to /var/data/database.sqlite in production, got '{$sqlitePath}'.";
     }
 
     $sessionDriver = (string) config('session.driver');
