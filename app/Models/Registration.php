@@ -18,6 +18,7 @@ class Registration extends Model
     public function package(): BelongsTo { return $this->belongsTo(Package::class); }
     public function motorcycle(): HasOne { return $this->hasOne(Motorcycle::class); }
     public function motorcycles(): HasMany { return $this->hasMany(Motorcycle::class); }
+    public function trackLapResults(): HasMany { return $this->hasMany(TrackLapResult::class); }
     public function tireRequest(): HasOne { return $this->hasOne(TireRequest::class); }
     public function travelInfo(): HasOne { return $this->hasOne(TravelInfo::class); }
     public function checklistItems(): HasMany { return $this->hasMany(ParticipantChecklistItem::class); }

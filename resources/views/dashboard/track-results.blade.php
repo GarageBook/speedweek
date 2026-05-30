@@ -2,7 +2,7 @@
 <div class="space-y-4" x-data="{ activeTab: 'uitslag' }">
     <section class="rounded bg-zinc-900 p-6 border border-zinc-800">
         <h3 class="text-2xl font-bold text-[#d0362e]">{{ $trackdayTitle }}</h3>
-        <p class="mt-2 text-zinc-300">Rondetijden per sessie. Live timing kan later worden gekoppeld; deze demo geeft alvast de verwachte weergave.</p>
+        <p class="mt-2 text-zinc-300">Rondetijden per sessie. De uitslag is gekoppeld aan geregistreerde deelnemers en hun motor en de tijden worden nu persistent in de database bewaard.</p>
     </section>
 
     <section class="rounded bg-zinc-900 p-5 border border-zinc-800">

@@ -207,16 +207,42 @@ class SpeedweekPortalTest extends TestCase
             ->assertDontSee('Je registratie is nog niet compleet');
     }
 
-    public function test_track_results_page_shows_lap_times(): void
+    public function test_track_results_page_shows_real_registered_users_and_motorcycles(): void
     {
+        [$event, $package] = $this->eventWithPackages();
+
         $user = User::create(['name' => 'Lap Rider', 'email' => 'lap@example.com', 'password' => 'password']);
+        $otherUser = User::create(['name' => 'Fast Friend', 'email' => 'friend@example.com', 'password' => 'password']);
+
+        app(\App\Services\UserOnboardingService::class)->createForUser($user, $event, $package, [
+            'motorcycle_brand' => 'Yamaha',
+            'motorcycle_model' => 'R1',
+            'motorcycle_year' => 2022,
+            'has_license_plate' => true,
+            'motorcycle_license_plate' => 'MTS-01',
+        ]);
+
+        app(\App\Services\UserOnboardingService::class)->createForUser($otherUser, $event, $package, [
+            'motorcycle_brand' => 'Ducati',
+            'motorcycle_model' => 'V4',
+            'motorcycle_year' => 2023,
+            'has_license_plate' => true,
+            'motorcycle_license_plate' => 'MTS-02',
+        ]);
+
+        $this->assertDatabaseHas('track_lap_results', ['registration_id' => $user->registration->id, 'session_number' => 1]);
+        $this->assertDatabaseHas('track_lap_results', ['registration_id' => $otherUser->registration->id, 'session_number' => 3]);
 
         $this->actingAs($user)->get('/dashboard/track-results')
             ->assertOk()
             ->assertSee('Track results')
             ->assertSee('Rondetijden')
-            ->assertSee('1:48.231')
-            ->assertSee('Lap Rider');
+            ->assertSee('Lap Rider')
+            ->assertSee('Fast Friend')
+            ->assertSee('Yamaha R1')
+            ->assertSee('Ducati V4')
+            ->assertDontSee('Demo Rider')
+            ->assertDontSee('Speedweek Coach');
     }
 
     public function test_dashboard_uses_dutch_status_labels(): void

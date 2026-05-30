@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Log;
 
 class UserOnboardingService
 {
+    public function __construct(private TrackResultsService $trackResults) {}
+
     public function createForUser(User $user, ?Event $event = null, ?Package $package = null, array $attributes = []): Registration
     {
         return DB::transaction(function () use ($user, $event, $package, $attributes): Registration {
@@ -75,6 +77,7 @@ class UserOnboardingService
         }
 
         $this->ensureTravelInfo($registration);
+        $this->trackResults->ensureForRegistration($registration);
     }
 
     public function defaultEvent(): Event
