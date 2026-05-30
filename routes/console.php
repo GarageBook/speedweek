@@ -56,9 +56,9 @@ Artisan::command('ops:debug-state', function () {
 })->purpose('Temporary production startup diagnostics for persistence and sessions.');
 
 Artisan::command('ops:assert-production-persistence {--force-production}', function () {
-     = app()->environment('production') || ->option('force-production');
+    $isProduction = app()->environment('production') || (bool) $this->option('force-production');
 
-    if (! ) {
+    if (! $isProduction) {
         $this->warn('Skipping production persistence assertion outside production environment.');
 
         return self::SUCCESS;
