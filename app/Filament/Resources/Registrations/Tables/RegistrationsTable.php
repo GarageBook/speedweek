@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Registrations\Tables;
 
 use App\Models\MailTemplate;
+use App\Support\PaymentDisplay;
 use App\Support\SpeedweekLabels;
 use App\Support\TemplateMailer;
 use Filament\Actions\Action;
@@ -26,8 +27,13 @@ class RegistrationsTable
                 TextColumn::make('event.name')->label('Event'),
                 TextColumn::make('package.name')->label('Pakket'),
                 TextColumn::make('status')->label('Status')->badge()->formatStateUsing(fn (?string $state): string => SpeedweekLabels::registrationStatus($state)),
-                TextColumn::make('payment_status')->label('Betaalstatus')->badge()->formatStateUsing(fn (?string $state): string => SpeedweekLabels::paymentStatus($state)),
-                TextColumn::make('total_amount_cents')->label('Totaal')->money('EUR', divideBy: 100),
+                TextColumn::make('payment_summary')
+                    ->label('Betaalstatus')
+                    ->html()
+                    ->state(fn ($record): string => PaymentDisplay::registrationPaymentSummaryHtml($record->loadMissing('invoices'))),
+                TextColumn::make('total_amount_cents')
+                    ->label('Bedrag (€)')
+                    ->state(fn ($record): string => PaymentDisplay::euroFromCents((int) $record->total_amount_cents)),
             ])
             ->filters([])
             ->recordActions([

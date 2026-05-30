@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Invoices\Tables;
 
+use App\Support\PaymentDisplay;
 use App\Support\SpeedweekLabels;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -19,7 +20,9 @@ class InvoicesTable
                 TextColumn::make('registration.user.name')->label('Gebruiker'),
                 TextColumn::make('type')->label('Type')->badge()->formatStateUsing(fn (?string $state): string => SpeedweekLabels::invoiceType($state)),
                 TextColumn::make('status')->label('Status')->badge()->formatStateUsing(fn (?string $state): string => SpeedweekLabels::invoiceStatus($state)),
-                TextColumn::make('amount_cents')->label('Bedrag')->money('EUR', divideBy: 100),
+                TextColumn::make('amount_cents')
+                    ->label('Bedrag (€)')
+                    ->state(fn ($record): string => PaymentDisplay::euroFromCents((int) $record->amount_cents)),
             ])
             ->filters([])
             ->recordActions([
