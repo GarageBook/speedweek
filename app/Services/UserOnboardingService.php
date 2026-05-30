@@ -14,6 +14,7 @@ use App\Models\TravelInfo;
 use App\Models\User;
 use App\Support\RegistrationPricing;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class UserOnboardingService
 {
@@ -21,6 +22,11 @@ class UserOnboardingService
     {
         return DB::transaction(function () use ($user, $event, $package, $attributes): Registration {
             if ($registration = $user->registrations()->latest()->first()) {
+                Log::info('onboarding.create_for_user.existing_registration', [
+                    'user_id' => $user->id,
+                    'registration_id' => $registration->id,
+                ]);
+
                 $this->ensureDashboardData($registration);
 
                 return $registration->fresh(['event', 'package', 'motorcycle', 'tireRequest', 'travelInfo', 'checklistItems', 'invoices']);
@@ -40,6 +46,11 @@ class UserOnboardingService
                 'checked_luggage_requested' => $attributes['checked_luggage_requested'] ?? true,
                 'total_amount_cents' => $package->price_cents,
                 'deposit_amount_cents' => 0,
+            ]);
+
+            Log::info('onboarding.create_for_user.registration_created', [
+                'user_id' => $user->id,
+                'registration_id' => $registration->id,
             ]);
 
             $this->ensureDashboardData($registration);

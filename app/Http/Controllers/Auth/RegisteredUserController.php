@@ -10,6 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
@@ -55,6 +56,12 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
+
+        Log::info('auth.register.created', [
+            'user_id' => $user->id,
+            'has_event_slug' => $request->filled('event_slug'),
+            'is_admin' => (bool) $user->is_admin,
+        ]);
 
         if ($request->filled('event_slug')) {
             $event = Event::where('slug', $request->input('event_slug'))->first();
