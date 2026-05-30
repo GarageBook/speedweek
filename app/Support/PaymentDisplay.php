@@ -46,6 +46,6 @@ class PaymentDisplay
             return '<span class="inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-medium '.$classes.'">'.$label.': '.($paid ? 'voldaan' : 'niet voldaan').'</span>';
         };
 
-        return '<div class="flex flex-wrap gap-2">'.$badge($depositPaid, 'Aanbetaling').$badge($finalPaid, 'Restfactuur').'</div>';
+        return '<div class="flex flex-col gap-1">'.$badge($depositPaid, 'Aanbetaling').$badge($finalPaid, 'Restfactuur').'</div>';
     }
 }

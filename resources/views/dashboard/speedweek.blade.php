@@ -1,13 +1,13 @@
 <x-speedweek-layout><x-slot:title>Mijn Speedweek</x-slot:title>
 @if($isAdminWithoutRegistration)
     <section class="rounded bg-zinc-900 p-6 border border-zinc-800">
-        <h3 class="text-2xl font-bold text-[#d0362e]">Admin dashboardweergave</h3>
+        <h3 class="dashboard-title text-2xl font-bold text-[#d0362e]">Admin dashboardweergave</h3>
         <p class="mt-2 text-zinc-300">Je bent ingelogd als admin. Deelnemersregistratie is niet verplicht om het reguliere dashboard te bekijken.</p>
         <a class="pill-link mt-4" href="{{ route('filament.admin.pages.dashboard') }}">Terug naar Admin</a>
     </section>
 @elseif(! $registration)
     <section class="rounded bg-zinc-900 p-6 border border-zinc-800">
-        <h3 class="text-2xl font-bold text-[#d0362e]">Je registratie is nog niet compleet</h3>
+        <h3 class="dashboard-title text-2xl font-bold text-[#d0362e]">Je registratie is nog niet compleet</h3>
         <p class="mt-2 text-zinc-300">Kies je pakket om je Speedweek dashboard te vullen met finance, checklist en motorinformatie.</p>
         @if($onboardingEvent)
             <a class="pill-link mt-4" href="{{ route('events.register', $onboardingEvent) }}">Registratie afronden</a>
@@ -28,7 +28,7 @@
 @endphp
 <div class="grid gap-4 md:grid-cols-3">
     <section class="md:col-span-2 rounded bg-zinc-900 p-6 border border-zinc-800">
-        <h3 class="text-2xl font-bold text-[#d0362e]">Mijn Speedweek</h3>
+        <h3 class="dashboard-title text-2xl font-bold text-[#d0362e]">Mijn Speedweek</h3>
         <p class="mt-2">{{ $registration->event->name }} · {{ $registration->package->name }}</p>
         <p class="mt-2"><span class="rounded bg-zinc-800 px-2 py-1">{{ $labels::registrationStatus($registration->status) }}</span> <span class="rounded bg-[#d0362e] text-white px-2 py-1">{{ $labels::paymentStatus($registration->payment_status) }}</span></p>
     </section>
@@ -41,7 +41,7 @@
 <section class="mt-4 rounded bg-zinc-900 p-5 border border-zinc-800">
     <div class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
         <div>
-            <h4 class="font-semibold text-[#d0362e]">Finance</h4>
+            <h4 class="dashboard-title font-semibold text-[#d0362e]">Finance</h4>
             <p class="mt-1 text-sm text-zinc-300">Bekijk facturen, open bedragen en betaalstatus.</p>
         </div>
         <div class="grid grid-cols-2 gap-3 text-sm sm:grid-cols-4">
@@ -81,13 +81,13 @@
 </section>
 
 <div class="mt-4 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-<section class="rounded bg-zinc-900 p-5 border border-zinc-800"><h4 class="font-semibold text-[#d0362e]">Package features</h4><ul class="mt-2 text-sm space-y-1">@foreach($registration->package->features as $feature)<li>{{ $feature->included ? '✓' : '–' }} {{ $feature->label }}</li>@endforeach</ul></section>
-<section class="rounded bg-zinc-900 p-5 border border-zinc-800"><h4 class="font-semibold text-[#d0362e]">Open checklist</h4><p>{{ $registration->checklistItems->whereNull('completed_at')->count() }} open items</p><a class="pill-link mt-3" href="{{ route('dashboard.checklist', ['return_to' => $returnTo]) }}">Open checklist</a></section>
-<section class="rounded bg-zinc-900 p-5 border border-zinc-800"><h4 class="font-semibold text-[#d0362e]">Mijn motor</h4><p>{{ $registration->motorcycle?->brand ?? 'Niet ingevuld' }} {{ $registration->motorcycle?->model }}</p><a class="pill-link mt-3" href="{{ route('dashboard.motorcycle', ['return_to' => $returnTo]) }}">Bewerken</a></section>
-<section class="rounded bg-zinc-900 p-5 border border-zinc-800"><h4 class="font-semibold text-[#d0362e]">Bandenkeuze</h4><p>{{ $registration->tireRequest?->preferred_brand ?? 'Nog niet gekozen' }}</p><a class="pill-link mt-3" href="{{ route('dashboard.tires', ['return_to' => $returnTo]) }}">Bewerken</a></section>
-<section class="rounded bg-zinc-900 p-5 border border-zinc-800"><h4 class="font-semibold text-[#d0362e]">Reisinfo / hotelinfo</h4><p>{{ $registration->travelInfo?->outbound_flight_number ?? 'Nog niet ingevuld' }} · kamer {{ $registration->travelInfo?->hotel_room_number ?? 'TBD' }}</p><a class="pill-link mt-3" href="{{ route('dashboard.travel', ['return_to' => $returnTo]) }}">Bewerken</a></section>
-<section class="rounded bg-zinc-900 p-5 border border-zinc-800"><h4 class="font-semibold text-[#d0362e]">Belangrijke adressen</h4><p class="text-sm">{{ $registration->event->circuit_name }}<br>{{ $registration->event->circuit_address }}<br><br>{{ $registration->event->hotel_name }}<br>{{ $registration->event->hotel_address }}</p></section>
+<section class="rounded bg-zinc-900 p-5 border border-zinc-800"><h4 class="dashboard-title font-semibold text-[#d0362e]">Package features</h4><ul class="mt-2 text-sm space-y-1">@foreach($registration->package->features as $feature)<li>{{ $feature->included ? '✓' : '–' }} {{ $feature->label }}</li>@endforeach</ul></section>
+<section class="rounded bg-zinc-900 p-5 border border-zinc-800"><h4 class="dashboard-title font-semibold text-[#d0362e]">Open checklist</h4><p>{{ $registration->checklistItems->whereNull('completed_at')->count() }} open items</p><a class="pill-link mt-3" href="{{ route('dashboard.checklist', ['return_to' => $returnTo]) }}">Open checklist</a></section>
+<section class="rounded bg-zinc-900 p-5 border border-zinc-800"><h4 class="dashboard-title font-semibold text-[#d0362e]">Mijn motor</h4><p>{{ $registration->motorcycle?->brand ?? 'Niet ingevuld' }} {{ $registration->motorcycle?->model }}</p><a class="pill-link mt-3" href="{{ route('dashboard.motorcycle', ['return_to' => $returnTo]) }}">Bewerken</a></section>
+<section class="rounded bg-zinc-900 p-5 border border-zinc-800"><h4 class="dashboard-title font-semibold text-[#d0362e]">Bandenkeuze</h4><p>{{ $registration->tireRequest?->preferred_brand ?? 'Nog niet gekozen' }}</p><a class="pill-link mt-3" href="{{ route('dashboard.tires', ['return_to' => $returnTo]) }}">Bewerken</a></section>
+<section class="rounded bg-zinc-900 p-5 border border-zinc-800"><h4 class="dashboard-title font-semibold text-[#d0362e]">Reisinfo / hotelinfo</h4><p>{{ $registration->travelInfo?->outbound_flight_number ?? 'Nog niet ingevuld' }} · kamer {{ $registration->travelInfo?->hotel_room_number ?? 'TBD' }}</p><a class="pill-link mt-3" href="{{ route('dashboard.travel', ['return_to' => $returnTo]) }}">Bewerken</a></section>
+<section class="rounded bg-zinc-900 p-5 border border-zinc-800"><h4 class="dashboard-title font-semibold text-[#d0362e]">Belangrijke adressen</h4><p class="text-sm">{{ $registration->event->circuit_name }}<br>{{ $registration->event->circuit_address }}<br><br>{{ $registration->event->hotel_name }}<br>{{ $registration->event->hotel_address }}</p></section>
 </div>
-<section class="mt-4 rounded bg-zinc-900 p-5 border border-zinc-800"><h4 class="font-semibold text-[#d0362e]">Programma</h4><div class="mt-2 grid gap-2">@foreach($registration->event->programmeItems->sortBy('starts_at')->take(6) as $item)<div class="flex justify-between border-b border-zinc-800 py-2"><span>{{ $item->title }}</span><span class="text-zinc-400">{{ $item->starts_at->format('d M H:i') }}</span></div>@endforeach</div><a class="pill-link mt-4" href="{{ route('dashboard.programme') }}">Volledig programma</a></section>
+<section class="mt-4 rounded bg-zinc-900 p-5 border border-zinc-800"><h4 class="dashboard-title font-semibold text-[#d0362e]">Programma</h4><div class="mt-2 grid gap-2">@foreach($registration->event->programmeItems->sortBy('starts_at')->take(6) as $item)<div class="flex justify-between border-b border-zinc-800 py-2"><span>{{ $item->title }}</span><span class="text-zinc-400">{{ $item->starts_at->format('d M H:i') }}</span></div>@endforeach</div><a class="pill-link mt-4" href="{{ route('dashboard.programme') }}">Volledig programma</a></section>
 @endif
 </x-speedweek-layout>

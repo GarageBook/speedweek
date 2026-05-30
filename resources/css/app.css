@@ -134,6 +134,14 @@
     color: #991b1b !important;
 }
 
+:root.theme-light .dashboard-title {
+    color: #111827 !important;
+}
+
+:root.theme-light .dashboard-title.text-\[\#d0362e\] {
+    color: #111827 !important;
+}
+
 :root.theme-light .bg-zinc-800,
 :root.theme-light .bg-zinc-800\/90,
 :root.theme-light .bg-zinc-800\/80,
