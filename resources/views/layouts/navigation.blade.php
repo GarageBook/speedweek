@@ -1,7 +1,12 @@
-<nav x-data="{ open: false }" class="bg-zinc-950 border-b border-zinc-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-            <div class="flex">
+<nav
+    x-data="{ open: false, scrolled: false }"
+    x-init="scrolled = window.scrollY > 8; window.addEventListener('scroll', () => { scrolled = window.scrollY > 8 }, { passive: true })"
+    class="sticky top-0 z-50 nav-sticky border-b border-zinc-800/90"
+    :class="scrolled ? 'bg-zinc-950/95 shadow-lg shadow-black/20 backdrop-blur-md' : 'bg-zinc-950/75 backdrop-blur-sm'"
+>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-300" :class="scrolled ? 'py-1' : 'py-0'">
+        <div class="flex justify-between h-16 transition-all duration-300" :class="scrolled ? 'h-14' : 'h-16'">
+            <div class="flex min-w-0">
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
                         <x-application-logo class="block h-10 w-auto" />
@@ -32,7 +37,7 @@
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
-                        <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-zinc-200 bg-zinc-950 hover:text-[#d0362e] focus:outline-none transition ease-in-out duration-150">
+                        <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-zinc-200 bg-zinc-950/80 hover:text-[#d0362e] focus:outline-none transition ease-in-out duration-150">
                             <div>{{ Auth::user()->name }}</div>
 
                             <div class="ms-1">
@@ -62,7 +67,7 @@
             </div>
 
             <div class="-me-2 flex items-center sm:hidden">
-                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-zinc-300 hover:text-[#d0362e] hover:bg-zinc-900 focus:outline-none focus:bg-zinc-900 focus:text-[#d0362e] transition duration-150 ease-in-out">
+                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-zinc-300 hover:text-[#d0362e] hover:bg-zinc-900/90 focus:outline-none focus:bg-zinc-900 focus:text-[#d0362e] transition duration-150 ease-in-out">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                         <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                         <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -72,7 +77,7 @@
         </div>
     </div>
 
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
+    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden border-t border-zinc-800/80 bg-zinc-950/95 backdrop-blur-md">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 Dashboard

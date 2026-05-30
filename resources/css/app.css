@@ -79,3 +79,17 @@
         color: #6b7280;
     }
 }
+
+@layer components {
+    .nav-sticky {
+        transition: background-color 260ms ease, box-shadow 260ms ease, backdrop-filter 260ms ease, border-color 260ms ease;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .nav-sticky,
+    .nav-sticky * {
+        transition-duration: 1ms !important;
+        animation-duration: 1ms !important;
+    }
+}
