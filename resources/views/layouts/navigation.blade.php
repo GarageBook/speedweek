@@ -1,5 +1,5 @@
 <nav
-    x-data="{ open: false, scrolled: false }"
+    x-data="{ open: false, scrolled: false, themeMode: document.documentElement.classList.contains('theme-light') ? 'light' : 'dark', toggleThemeMode() { window.toggleTheme(); this.themeMode = document.documentElement.classList.contains('theme-light') ? 'light' : 'dark'; } }"
     x-init="scrolled = window.scrollY > 8; window.addEventListener('scroll', () => { scrolled = window.scrollY > 8 }, { passive: true })"
     class="sticky top-0 z-50 nav-sticky border-b border-zinc-800/90"
     :class="scrolled ? 'bg-zinc-950/95 shadow-lg shadow-black/20 backdrop-blur-md' : 'bg-zinc-950/75 backdrop-blur-sm'"
@@ -34,15 +34,13 @@
                 </div>
             </div>
 
-
             <div class="hidden sm:flex sm:items-center sm:ms-4">
                 <button
                     type="button"
                     class="inline-flex items-center rounded-md border border-zinc-700 px-3 py-2 text-sm text-zinc-200 transition hover:border-zinc-500"
-                    @click="window.toggleTheme()"
+                    @click="toggleThemeMode()"
                 >
-                    <span x-show="document.documentElement.classList.contains('theme-dark')">Light</span>
-                    <span x-show="document.documentElement.classList.contains('theme-light')">Dark</span>
+                    <span x-text="`Weergave: ${themeMode === 'dark' ? 'Dark' : 'Light'}`"></span>
                 </button>
             </div>
 
@@ -114,10 +112,9 @@
             <button
                 type="button"
                 class="inline-flex items-center rounded-md border border-zinc-700 px-3 py-2 text-sm text-zinc-200 transition hover:border-zinc-500"
-                @click="window.toggleTheme()"
+                @click="toggleThemeMode()"
             >
-                <span x-show="document.documentElement.classList.contains('theme-dark')">Light mode</span>
-                <span x-show="document.documentElement.classList.contains('theme-light')">Dark mode</span>
+                <span x-text="`Weergave: ${themeMode === 'dark' ? 'Dark' : 'Light'}`"></span>
             </button>
         </div>
 
