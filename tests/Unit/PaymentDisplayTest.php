@@ -27,8 +27,25 @@ class PaymentDisplayTest extends TestCase
         ]));
 
         $this->assertSame(
-            'Aanbetaling: voldaan • Restfactuur: niet voldaan',
+            "Aanbetaling: voldaan\nRestfactuur: niet voldaan",
             PaymentDisplay::registrationPaymentSummary($registration)
         );
+    }
+
+    #[Test]
+    public function it_renders_payment_summary_html_on_separate_lines(): void
+    {
+        $registration = new Registration();
+        $registration->setRelation('invoices', new Collection([
+            (object) ['type' => 'deposit', 'status' => 'sent'],
+            (object) ['type' => 'final', 'status' => 'sent'],
+        ]));
+
+        $html = PaymentDisplay::registrationPaymentSummaryHtml($registration);
+
+        $this->assertStringContainsString('whitespace-nowrap', $html);
+        $this->assertStringContainsString('Aanbetaling: niet voldaan', $html);
+        $this->assertStringContainsString('</div><div><span', $html);
+        $this->assertStringContainsString('Restfactuur: niet voldaan', $html);
     }
 }

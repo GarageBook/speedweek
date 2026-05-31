@@ -14,6 +14,7 @@ class RecentRegistrations extends TableWidget
 {
     protected static bool $isLazy = false;
     protected static ?string $heading = 'Recente registraties';
+    protected int | string | array $columnSpan = 'full';
 
     public function table(Table $table): Table
     {
@@ -27,6 +28,7 @@ class RecentRegistrations extends TableWidget
                 TextColumn::make('payment_summary')
                     ->label('Betaalstatus')
                     ->html()
+                    ->wrap()
                     ->state(fn ($record): string => PaymentDisplay::registrationPaymentSummaryHtml($record)),
                 TextColumn::make('total_amount_cents')
                     ->label('Bedrag (€)')
