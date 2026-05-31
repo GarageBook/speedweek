@@ -17,10 +17,12 @@ class AdminDashboardWidgetLayoutTest extends TestCase
         $this->actingAs($admin)
             ->get('/admin')
             ->assertOk()
-            ->assertSee('sw-ops-shell', false)
-            ->assertSee('sw-ops-event-list', false)
-            ->assertSee('sw-ops-stat', false)
-            ->assertSee('sw-ops-action', false)
-            ->assertSee('Operations dashboard');
+            ->assertSee('swops-widget', false)
+            ->assertSee('swops-event-list', false)
+            ->assertSee('swops-kpis', false)
+            ->assertSee('swops-actions', false)
+            ->assertSee('Operations dashboard')
+            ->assertSee('Speedweek beheer')
+            ->assertSee('Evenementsoverzicht');
     }
 }
