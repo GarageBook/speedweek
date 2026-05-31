@@ -1,7 +1,7 @@
 <x-speedweek-layout><x-slot:title>Track results</x-slot:title>
 <div class="space-y-4" x-data="{ activeTab: 'uitslag' }">
     <section class="rounded bg-zinc-900 p-6 border border-zinc-800">
-        <h3 class="text-2xl font-bold text-[#d0362e]">{{ $trackdayTitle }}</h3>
+        <h3 class="dashboard-title text-2xl font-bold text-[#d0362e]">{{ $trackdayTitle }}</h3>
         <p class="mt-2 text-zinc-300">Rondetijden per sessie. De uitslag is gekoppeld aan geregistreerde deelnemers en hun motor en de tijden worden nu persistent in de database bewaard.</p>
     </section>
 
