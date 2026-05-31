@@ -61,9 +61,13 @@ php artisan optimize:clear
 php artisan route:clear
 php artisan config:clear
 php artisan view:clear
+php artisan filament:clear-cached-components
 ```
 
 Local verification can use the same commands. Render does not currently have a CLI configured in this workspace; if production commands are required, use Render shell/dashboard or add an approved deployment mechanism.
+- Production admin UI changes may require `php artisan filament:clear-cached-components` in addition to the usual cache clears.
+- Production sessions must keep a stable `APP_KEY`, use `SESSION_DRIVER=database`, `SESSION_SECURE_COOKIE=true`, and `SESSION_SAME_SITE=lax`.
+- Never run `php artisan key:generate` during deploy or startup on Render.
 
 ## Test / Build Commands
 Run these before committing broad application changes:

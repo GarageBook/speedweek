@@ -7,6 +7,8 @@ export DB_DATABASE="${DB_DATABASE:-/var/data/database.sqlite}"
 export SESSION_DRIVER="${SESSION_DRIVER:-database}"
 export SESSION_LIFETIME="${SESSION_LIFETIME:-43200}"
 export SESSION_EXPIRE_ON_CLOSE="${SESSION_EXPIRE_ON_CLOSE:-false}"
+export SESSION_SECURE_COOKIE="${SESSION_SECURE_COOKIE:-true}"
+export SESSION_SAME_SITE="${SESSION_SAME_SITE:-lax}"
 
 if [ "$APP_ENV" = "production" ]; then
   if [ "$DB_CONNECTION" != "sqlite" ]; then
@@ -38,4 +40,5 @@ php artisan optimize:clear
 php artisan route:clear
 php artisan config:clear
 php artisan view:clear
+php artisan filament:clear-cached-components
 php artisan serve --host=0.0.0.0 --port=10000

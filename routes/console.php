@@ -35,11 +35,15 @@ Artisan::command('ops:debug-state', function () {
 
     $state = [
         'timestamp' => now()->toIso8601String(),
+        'app_url' => (string) config('app.url'),
+        'app_key_present' => filled(config('app.key')) ? 'yes' : 'no',
         'db_connection' => $defaultConnection,
         'db_database' => (string) env('DB_DATABASE', 'not-set'),
         'resolved_sqlite_path' => $sqlitePath,
         'session_driver' => (string) config('session.driver'),
         'session_lifetime' => (int) config('session.lifetime'),
+        'session_secure_cookie' => (bool) config('session.secure') ? 'true' : 'false',
+        'session_same_site' => (string) config('session.same_site'),
         'sqlite_exists' => $sqliteExists ? 'yes' : 'no',
         'user_count' => User::count(),
     ];
@@ -67,6 +71,15 @@ Artisan::command('ops:assert-production-persistence {--force-production}', funct
     $errors = [];
     $defaultConnection = (string) config('database.default');
 
+    if (! filled(config('app.key'))) {
+        $errors[] = 'APP_KEY must be set and stable across deploys.';
+    }
+
+    $appUrl = (string) config('app.url');
+    if (! str_starts_with($appUrl, 'https://')) {
+        $errors[] = "APP_URL must use https in production, got '{$appUrl}'.";
+    }
+
     if ($defaultConnection !== 'sqlite') {
         $errors[] = "DB_CONNECTION must be 'sqlite' for paid Render persistent disk setup, got '{$defaultConnection}'.";
     }
@@ -89,6 +102,16 @@ Artisan::command('ops:assert-production-persistence {--force-production}', funct
     $expireOnClose = (bool) config('session.expire_on_close');
     if ($expireOnClose !== false) {
         $errors[] = 'SESSION_EXPIRE_ON_CLOSE must be false.';
+    }
+
+    $secureCookie = (bool) config('session.secure');
+    if ($secureCookie !== true) {
+        $errors[] = 'SESSION_SECURE_COOKIE must be true in production.';
+    }
+
+    $sameSite = (string) config('session.same_site');
+    if ($sameSite !== 'lax') {
+        $errors[] = "SESSION_SAME_SITE must be 'lax', got '{$sameSite}'.";
     }
 
     if ($errors !== []) {

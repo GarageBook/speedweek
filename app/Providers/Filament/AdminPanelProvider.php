@@ -31,6 +31,7 @@ class AdminPanelProvider extends PanelProvider
             ->brandLogo(asset('images/logo_25_meetthespeed_edited_edited.avif'))
             ->brandLogoHeight('2.5rem')
             ->font('Play', asset('fonts/play.css'), LocalFontProvider::class)
+            ->viteTheme('resources/css/filament/admin/theme.css')
             ->colors([
                 'primary' => [50 => '#00d1c1', 100 => '#00d1c1', 200 => '#00d1c1', 300 => '#00d1c1', 400 => '#00d1c1', 500 => '#00d1c1', 600 => '#00d1c1', 700 => '#00d1c1', 800 => '#00d1c1', 900 => '#00d1c1', 950 => '#00d1c1'],
             ])
