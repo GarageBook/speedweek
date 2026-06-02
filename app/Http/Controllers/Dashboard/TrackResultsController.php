@@ -10,7 +10,7 @@ class TrackResultsController extends Controller
 {
     public function __invoke(Request $request, TrackResultsService $trackResults)
     {
-        $trackdayTitle = 'Trackday 1, donderdag 1 oktober 2026';
+        $trackdayTitle = $trackResults->trackdayTitle();
         $sessions = $trackResults->sessionsForUser($request->user());
         $personalLapTimes = $trackResults->personalLapTimesForUser($request->user());
         $personalOverview = $trackResults->summarizePersonalLapTimes($personalLapTimes);

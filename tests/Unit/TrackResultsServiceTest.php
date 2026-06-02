@@ -58,15 +58,18 @@ class TrackResultsServiceTest extends TestCase
         $sessions = $service->personalLapTimesForUser($user);
         $overview = $service->summarizePersonalLapTimes($sessions);
 
-        $this->assertCount(6, $sessions);
+        $this->assertCount(18, $sessions);
+        $this->assertSame('Trackdays 1 t/m 3, donderdag 1 oktober t/m zaterdag 3 oktober 2026', $service->trackdayTitle());
+        $this->assertStringStartsWith('Trackday 1', $sessions[0]['session_label']);
+        $this->assertStringStartsWith('Trackday 3', $sessions[17]['session_label']);
         $this->assertSame(20, count($sessions[0]['laps']));
-        $this->assertSame(20, count($sessions[5]['laps']));
+        $this->assertSame(20, count($sessions[17]['laps']));
         $this->assertTrue($sessions[0]['laps'][0]['lap_ms'] > $sessions[0]['best_lap_ms']);
-        $this->assertTrue($sessions[5]['best_lap_ms'] < $sessions[0]['best_lap_ms']);
-        $this->assertSame($sessions[5]['best_lap'], $overview['best_lap']);
-        $this->assertSame('6 / 120', $overview['session_count'].' / '.$overview['lap_count']);
+        $this->assertTrue($sessions[17]['best_lap_ms'] < $sessions[0]['best_lap_ms']);
+        $this->assertSame($sessions[17]['best_lap'], $overview['best_lap']);
+        $this->assertSame('18 / 360', $overview['session_count'] . ' / ' . $overview['lap_count']);
         $this->assertStringContainsString('sneller', $overview['improvement']);
-        $this->assertSame('Paars', $sessions[5]['laps'][17]['trend_label']);
-        $this->assertStringStartsWith('1:35.', $overview['best_lap']);
+        $this->assertSame('Paars', $sessions[17]['laps'][17]['trend_label']);
+        $this->assertStringStartsWith('1:33.', $overview['best_lap']);
     }
 }
