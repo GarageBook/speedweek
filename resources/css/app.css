@@ -111,6 +111,7 @@
 :root.theme-light .bg-zinc-950\/95,
 :root.theme-light .bg-zinc-950\/75,
 :root.theme-light .bg-zinc-900,
+:root.theme-light .bg-zinc-900\/60,
 :root.theme-light .bg-zinc-900\/50 {
     background-color: #ffffff !important;
 }
@@ -139,6 +140,14 @@
 }
 
 :root.theme-light .dashboard-title.text-\[\#d0362e\] {
+    color: #111827 !important;
+}
+
+:root.theme-light .track-results-stat-card {
+    background-color: #ffffff !important;
+}
+
+:root.theme-light .track-results-stat-value {
     color: #111827 !important;
 }
 

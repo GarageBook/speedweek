@@ -65,21 +65,21 @@
 
         <div class="mt-4 space-y-4" x-show="activeTab === 'eigen-rondetijden'" x-cloak>
             <section class="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
-                <article class="rounded border border-zinc-800 bg-zinc-900/60 p-4">
+                <article class="track-results-stat-card rounded border border-zinc-800 bg-zinc-900/60 p-4">
                     <p class="text-xs uppercase tracking-[0.18em] text-zinc-500">Beste ronde</p>
-                    <p class="mt-2 text-2xl font-bold text-white">{{ $personalOverview['best_lap'] }}</p>
+                    <p class="track-results-stat-value mt-2 text-2xl font-bold text-white">{{ $personalOverview['best_lap'] }}</p>
                 </article>
-                <article class="rounded border border-zinc-800 bg-zinc-900/60 p-4">
+                <article class="track-results-stat-card rounded border border-zinc-800 bg-zinc-900/60 p-4">
                     <p class="text-xs uppercase tracking-[0.18em] text-zinc-500">Gemiddelde</p>
-                    <p class="mt-2 text-2xl font-bold text-white">{{ $personalOverview['average_lap'] }}</p>
+                    <p class="track-results-stat-value mt-2 text-2xl font-bold text-white">{{ $personalOverview['average_lap'] }}</p>
                 </article>
-                <article class="rounded border border-zinc-800 bg-zinc-900/60 p-4">
+                <article class="track-results-stat-card rounded border border-zinc-800 bg-zinc-900/60 p-4">
                     <p class="text-xs uppercase tracking-[0.18em] text-zinc-500">Verbetering dag</p>
-                    <p class="mt-2 text-2xl font-bold text-white">{{ $personalOverview['improvement'] }}</p>
+                    <p class="track-results-stat-value mt-2 text-2xl font-bold text-white">{{ $personalOverview['improvement'] }}</p>
                 </article>
-                <article class="rounded border border-zinc-800 bg-zinc-900/60 p-4">
+                <article class="track-results-stat-card rounded border border-zinc-800 bg-zinc-900/60 p-4">
                     <p class="text-xs uppercase tracking-[0.18em] text-zinc-500">Sessies / rondes</p>
-                    <p class="mt-2 text-2xl font-bold text-white">{{ $personalOverview['session_count'] }} / {{ $personalOverview['lap_count'] }}</p>
+                    <p class="track-results-stat-value mt-2 text-2xl font-bold text-white">{{ $personalOverview['session_count'] }} / {{ $personalOverview['lap_count'] }}</p>
                 </article>
             </section>
 
@@ -97,19 +97,19 @@
                         <div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-4 xl:text-right">
                             <div>
                                 <p class="text-xs uppercase tracking-[0.18em] text-zinc-500">Beste ronde</p>
-                                <p class="mt-1 text-lg font-bold text-white">{{ $session['best_lap'] }}</p>
+                                <p class="track-results-stat-value mt-1 text-lg font-bold text-white">{{ $session['best_lap'] }}</p>
                             </div>
                             <div>
                                 <p class="text-xs uppercase tracking-[0.18em] text-zinc-500">Gemiddelde</p>
-                                <p class="mt-1 text-lg font-bold text-white">{{ $session['average_lap'] }}</p>
+                                <p class="track-results-stat-value mt-1 text-lg font-bold text-white">{{ $session['average_lap'] }}</p>
                             </div>
                             <div>
                                 <p class="text-xs uppercase tracking-[0.18em] text-zinc-500">Verbetering</p>
-                                <p class="mt-1 text-lg font-bold text-white">{{ $session['improvement'] }}</p>
+                                <p class="track-results-stat-value mt-1 text-lg font-bold text-white">{{ $session['improvement'] }}</p>
                             </div>
                             <div>
                                 <p class="text-xs uppercase tracking-[0.18em] text-zinc-500">Rondes</p>
-                                <p class="mt-1 text-lg font-bold text-white">{{ $session['lap_count'] }}</p>
+                                <p class="track-results-stat-value mt-1 text-lg font-bold text-white">{{ $session['lap_count'] }}</p>
                             </div>
                         </div>
                     </div>
